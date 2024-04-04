@@ -1,0 +1,388 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Zone;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
+class ControlPanelController extends Controller
+{
+
+    public function getInstallationProgressGraphic()
+    {
+        try {
+            $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
+            ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente'])
+            ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
+            ->where(function ($query) {
+                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%');
+            })
+            #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
+            ->select(
+                'activities.Estado actividad',
+                'zones.Zonal',
+                DB::raw('COUNT(*) as Total')
+            )
+            ->groupBy(['activities.Estado actividad','zones.Zonal'])
+            ->orderBy('Estado actividad', 'asc')
+            ->orderBy('zones.Zonal', 'asc')
+            ->get();
+
+            $series = [];
+            $groupedData = collect($zones)->groupBy(['Estado actividad']);
+            foreach ($groupedData as $key => $value) {
+                $data = [];
+                $data['name'] = $key;
+                $data['data'] = $value->pluck('Total');
+                $series[] = $data;
+            }
+            $categories = collect($zones)->groupBy(['Zonal'])->keys();
+
+            return response()->json([
+                "status" => "success",
+                'message' => 'Avance de instalaciones',
+                'categories' => $categories,
+                'series' => $series,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: ControlPanelController getInstallationProgressGraphic',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getInstallationProgressTable()
+    {
+        try {
+            $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
+            ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente'])
+            ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
+            ->where(function ($query) {
+                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%');
+            })
+            #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
+            ->select(
+                'zones.Zonal as Ciudad',
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Completado" THEN 1 ELSE 0 END) AS Completado'),
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Iniciado" THEN 1 ELSE 0 END) AS Iniciado'),
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Pendiente" THEN 1 ELSE 0 END) AS Pendiente')
+            )
+            ->groupBy(['zones.Zonal'])
+            ->orderBy('Ciudad', 'asc')
+            ->get();
+            
+            $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
+
+            return response()->json([
+                "status" => "success",
+                'message' => 'Listado Avance de instalaciones',
+                'fields' => $fields,
+                'series' => $zones,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: ControlPanelController getInstallationProgressTable',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getMaintenanceProgressGraphic()
+    {
+        try {
+            $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
+            ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente'])
+            ->where('activities.Subtipo de Actividad','LIKE', '%Reparación%')
+            #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
+            ->select(
+                'activities.Estado actividad',
+                'zones.Zonal',
+                DB::raw('COUNT(*) as Total')
+            )
+            ->groupBy(['activities.Estado actividad','zones.Zonal'])
+            ->orderBy('Estado actividad', 'asc')
+            ->orderBy('zones.Zonal', 'asc')
+            ->get();
+
+            $series = [];
+            $groupedData = collect($zones)->groupBy(['Estado actividad']);
+            foreach ($groupedData as $key => $value) {
+                $data = [];
+                $data['name'] = $key;
+                $data['data'] = $value->pluck('Total');
+                $series[] = $data;
+            }
+            $categories = collect($zones)->groupBy(['Zonal'])->keys();
+
+            return response()->json([
+                "status" => "success",
+                'message' => 'Avance de mantenimientos',
+                'categories' => $categories,
+                'series' => $series,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: ControlPanelController getMaintenanceProgressGraphic',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getMaintenanceProgressTable()
+    {
+        try {
+            $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
+            ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente'])
+            ->where('activities.Subtipo de Actividad','LIKE', '%Reparación%')
+            ->select('zones.Zonal','activities.Estado actividad')
+            #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
+            ->select(
+                'zones.Zonal as Ciudad',
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Completado" THEN 1 ELSE 0 END) AS Completado'),
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Iniciado" THEN 1 ELSE 0 END) AS Iniciado'),
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Pendiente" THEN 1 ELSE 0 END) AS Pendiente')
+            )
+            ->groupBy(['zones.Zonal'])
+            ->orderBy('Ciudad', 'asc')
+            ->get();
+
+            $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
+
+            return response()->json([
+                "status" => "success",
+                'message' => 'Listado Avance de mantenimientos',
+                'fields' => $fields,
+                'series' => $zones,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: ControlPanelController getMaintenanceProgressTable',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getDiaryTable()
+    {
+        try {
+
+            $startDate = Carbon::now()->addDays(0)->startOfDay();
+            $endDate = Carbon::now()->addDays(7)->endOfDay();
+            $day1 = Carbon::now()->addDays(1)->format('d/m/y');
+            $day2 = Carbon::now()->addDays(2)->format('d/m/y');
+            $day3 = Carbon::now()->addDays(3)->format('d/m/y');
+            $day4 = Carbon::now()->addDays(4)->format('d/m/y');
+            $day5 = Carbon::now()->addDays(5)->format('d/m/y');
+            $day6 = Carbon::now()->addDays(6)->format('d/m/y');
+            $day7 = Carbon::now()->addDays(7)->format('d/m/y');
+            
+            $instalaciones = Zone::join('futures','futures.Nodo_zona','=', 'zones.Nodo')
+            ->where('futures.Tipo de Cita','LIKE', '%Cliente%')
+            ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
+            ->where(function ($query) {
+                $query->where('futures.Subtipo de Actividad','LIKE', '%Instalación%')
+                ->where('futures.Subtipo de Actividad','NOT LIKE', '%Migración%');
+            })
+            ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDate, $endDate])
+            ->select(
+                DB::raw("'Altas' as Tipo"),
+                'futures.Time Slot as Hora',
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 1 DAY) THEN 1 ELSE 0 END) AS `$day1`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 2 DAY) THEN 1 ELSE 0 END) AS `$day2`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 3 DAY) THEN 1 ELSE 0 END) AS `$day3`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 4 DAY) THEN 1 ELSE 0 END) AS `$day4`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 5 DAY) THEN 1 ELSE 0 END) AS `$day5`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 6 DAY) THEN 1 ELSE 0 END) AS `$day6`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 7 DAY) THEN 1 ELSE 0 END) AS `$day7`"),
+                DB::raw('count(*) as Total'),
+            )
+            ->groupBy(['futures.Time Slot'])
+            ->orderByRaw('futures.`Time Slot` asc')
+            ->get();
+
+            $migraciones = Zone::join('futures','futures.Nodo_zona','=', 'zones.Nodo')
+            ->where('futures.Tipo de Cita','LIKE', '%Cliente%')
+            ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
+            ->where(function ($query) {
+                $query->where('futures.Subtipo de Actividad','LIKE', '%Migración%')
+                ->where('futures.Subtipo de Actividad','NOT LIKE', '%Instalación%');
+            })
+            ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDate, $endDate])
+            ->select(
+                DB::raw("'Migracion' as Tipo"),
+                'futures.Time Slot as Hora',
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 1 DAY) THEN 1 ELSE 0 END) AS `$day1`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 2 DAY) THEN 1 ELSE 0 END) AS `$day2`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 3 DAY) THEN 1 ELSE 0 END) AS `$day3`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 4 DAY) THEN 1 ELSE 0 END) AS `$day4`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 5 DAY) THEN 1 ELSE 0 END) AS `$day5`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 6 DAY) THEN 1 ELSE 0 END) AS `$day6`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 7 DAY) THEN 1 ELSE 0 END) AS `$day7`"),
+                DB::raw('count(*) as Total'),
+            )
+            ->groupBy(['futures.Time Slot'])
+            ->orderByRaw('futures.`Time Slot` asc')
+            ->get();
+
+            $fields = ['Tipo','Hora', $day1, $day2, $day3, $day4, $day5, $day6, $day7, 'Total'];
+            $series = [];
+            $series = array_merge($instalaciones->toArray(), $migraciones->toArray());
+
+            return response()->json([
+                "status" => "success",
+                'message' => 'Agenda Diaria',
+                'fields' => $fields,
+                'series' => $series,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: ControlPanelController getDiaryTable',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getInstallationRatioGraphic()
+    {
+        try {
+            $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
+            ->whereIn('activities.Estado actividad', ['Completado'])
+            ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
+            ->where(function ($query) {
+                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%');
+            })
+            #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
+            ->select(
+                'activities.Tipo de Tecnología Legados as Categoria',
+                DB::raw('COUNT(*) AS `Totales`')
+            )
+            ->groupBy(['activities.Tipo de Tecnología Legados'])
+            ->orderBy('Totales', 'desc')
+            ->get();
+            
+            $categories = [];
+            $series = [];
+
+            foreach ($zones as $manager) {
+                $categories[] = $manager->Categoria ;
+                $series[] = $manager->Totales;
+            }
+
+            return response()->json([
+                "status" => "success",
+                'message' => 'Ratio de instalaciones',
+                'labels' => $categories,
+                'series' => $series,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: ControlPanelController getInstallationRatioGraphic',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getMaintenanceRatioGraphic()
+    {
+        try {
+            $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
+            ->whereIn('activities.Estado actividad', ['Completado'])
+            ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
+            ->where('activities.Subtipo de Actividad','LIKE', '%Reparación%')
+            ->where('activities.Tipo de Tecnología Legados','!=', '')
+            #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
+            ->select(
+                'activities.Tipo de Tecnología Legados as Categoria',
+                DB::raw('COUNT(*) AS `Totales`')
+            )
+            ->groupBy(['activities.Tipo de Tecnología Legados'])
+            ->orderBy('Totales', 'desc')
+            ->get();
+            
+            $categories = [];
+            $series = [];
+
+            foreach ($zones as $manager) {
+                $categories[] = $manager->Categoria ;
+                $series[] = $manager->Totales;
+            }
+
+            return response()->json([
+                "status" => "success",
+                'message' => 'Ratio de mantenimientos',
+                'labels' => $categories,
+                'series' => $series,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: ControlPanelController getMaintenanceRatioGraphic',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getProductionTable()
+    {
+        try {
+            $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
+            ->whereIn('activities.Estado actividad', ['Completado'])
+            ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
+            ->where(function ($query) {
+                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Reparación%');
+            })
+            #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
+            ->select(
+                'zones.Zonal as Ciudad',
+                DB::raw('CONCAT("S/ ",SUM(
+                    CASE WHEN 
+                        activities.`Subtipo de Actividad` LIKE "%Migración%" OR
+                        activities.`Subtipo de Actividad` LIKE "%Instalación%" THEN 1 ELSE 0 END)*133.71) AS Altas'),
+                DB::raw('CONCAT("S/ ",SUM(CASE WHEN activities.`Subtipo de Actividad` LIKE "%Reparación%" THEN 1 ELSE 0 END)*66.18) AS Averias'),
+                DB::raw('SUM(
+                    CASE WHEN 
+                        activities.`Subtipo de Actividad` LIKE "%Migración%" OR
+                        activities.`Subtipo de Actividad` LIKE "%Instalación%" THEN 1 ELSE 0 END)*133.71 + 
+                    SUM(CASE WHEN activities.`Subtipo de Actividad` LIKE "%Reparación%" THEN 1 ELSE 0 END)*66.18 AS Total')
+            )
+            ->groupBy(['zones.Zonal'])
+            ->orderBy('zones.Zonal', 'asc')
+            ->get();
+
+            $categories = ['Ciudad', 'Altas', 'Averias', 'Total'];
+
+            $totales = 0;
+            foreach ($zones as $manager) {
+                $totales += $manager->Total;
+            }
+            return response()->json([
+                "status" => "success",
+                'message' => 'Lista de produccion del dia',
+                'fields' => $categories,
+                'series' => $zones,
+                'totales' => round($totales,2),
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: ControlPanelController getProductionTable',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+}

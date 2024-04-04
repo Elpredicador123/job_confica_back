@@ -1,0 +1,107 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Line;
+
+class LineSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        Line::insert([
+            ['cod_liq' => '2','des_liq' =>'CONECTOR RG-6/11  INTERNO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '3','des_liq' =>'CONECTOR RG-6/11  EXTERNO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '6','des_liq' =>'CABLE RG-6/11 - INTERNO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '7','des_liq' =>'CABLE RG-6/11 - EXTERNO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '10','des_liq' =>'SPLITTER','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1C','des_liq' =>'FILTRO DE RUIDO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1D','des_liq' =>'FILTRO DE CANALES','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1H','des_liq' =>'DECODIFICADOR DIGITAL','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1I','des_liq' =>'TARJETA DIGITAL','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1L','des_liq' =>'ACCESORIOS','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1N','des_liq' =>'DECODIFICADOR DIGITAL HD','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1O','des_liq' =>'CABLE MODEM','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1P','des_liq' =>'MODEM INTERNET SOCIAL','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1S','des_liq' =>'DISCO DURO PVR','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1T','des_liq' =>'EQUIPO TELEFONICO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1U','des_liq' =>'EXPERTO WIFI','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '1W','des_liq' =>'REPETIDOR WIFI','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '21','des_liq' =>'TAP','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '22','des_liq' =>'CABLE DE 500/750','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '23','des_liq' =>'DIVISOR','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '24','des_liq' =>'ACOPLADOR','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '25','des_liq' =>'AMPLIFICADOR EXTERNO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '26','des_liq' =>'AMPLIFICADOR TRONCAL','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '2A','des_liq' =>'CABLE LATIGUILLO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '2G','des_liq' =>'MODEM HGU','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '31','des_liq' =>'FUENTE DE PODER','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '32','des_liq' =>'INSERTOR DE PODER','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '34','des_liq' =>'CABLE PARA ENERGIA','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '35','des_liq' =>'CONECTORES DE ALIMENTACION','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '41','des_liq' =>'TROBA','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '51','des_liq' =>'SISTEMA CABLENET','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '53','des_liq' =>'CATV','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '71','des_liq' =>'REVERIFICADOS SIN DEFECTO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '77','des_liq' =>'INEFECTIVA','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '78','des_liq' =>'LIQUIDACION CALL CENTER','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '7D','des_liq' =>'GENERAR NUEVO REQUERIMIENTO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '7E','des_liq' =>'NO SE UBCA CLIENTE','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '81','des_liq' =>'ROBADO / ROBO INFRUCTUOSO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '82','des_liq' =>'CASOS FORTUITOS','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '83','des_liq' =>'PROB.ENERGIA /SIN FLUIDO ELECT','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '84','des_liq' =>'VANDALISMO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '91','des_liq' =>'TRAB. EN PLANTA PROGRAMADO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '92','des_liq' =>'TRAB. EN PLANTA NO PROGRAMADO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'B8','des_liq' =>'MASIVA PLATAFORMA DE SERVICIOS','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'D1','des_liq' =>'INEXISTENTE / HPB REPARADOR','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'D2','des_liq' =>'ERROR DE ABON./ABON. NO RECLAM','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'D4','des_liq' =>'ASISTENCIA AL CLIENTE','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'G1','des_liq' =>'GENERICO CATV COMPONETES','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'G3','des_liq' =>'GENERICO DTH COMPONENTES','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'H0','des_liq' =>'CONECTOR RG-6 EXTERNO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'H1','des_liq' =>'TELEVISOR','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'H3','des_liq' =>'DECODIFICADOR','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'H4','des_liq' =>'CABLE RG6 (ANTENA A DECOD.)','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'H5','des_liq' =>'ANTENA','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'H6','des_liq' =>'SISTEMA SATELITAL','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'H8','des_liq' =>'CABLE RG-6 - EXTERNO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'H9','des_liq' =>'CONECTOR RG-6 INTERNO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'HA','des_liq' =>'SPLITTER SATELITAL','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'HB','des_liq' =>'LNB','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'HC','des_liq' =>'FUENTE AC - DECODER','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'HD','des_liq' =>'SMART CARD','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'R1','des_liq' =>'RUTINAS DE INSPECCION','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'R2','des_liq' =>'TRASLADO DE SERVICIO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => 'S1','des_liq' =>'REVERIFICADOS SIN DEFECTO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'S2','des_liq' =>'CASA CERRADA','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'S3','des_liq' =>'NO DEJAN / NO DESEAN','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'S4','des_liq' =>'DIRECCIÓN ERRADA','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'S5','des_liq' =>'SIN MANTENIMIENTO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'Z1','des_liq' =>'CONTACTO TELEF. CON EL CLIENTE','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '2D','des_liq' =>'CABLE ACOMETIDA DROP','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '7B','des_liq' =>'SOLUCION EN LINEA','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '7C','des_liq' =>'TEMAS COMERCIALES','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '2I','des_liq' =>'DIVICAU/CAJA EMPALME','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'D3','des_liq' =>'CORTE POR DEUDA / CORTE APA','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '7F','des_liq' =>'REQ. MAL GENERADO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '2C','des_liq' =>'ROSETA OPTICA','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '2B','des_liq' =>'CONECTOR OPTICO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '2E','des_liq' =>'TRIPLEXOR PASIVO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '2F','des_liq' =>'TRIPLEXOR ACTIVO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '2F','des_liq' =>'TRIPLEXOR ACTIVO','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '7G','des_liq' =>'ERROR DE ENVIO A CAMPO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'H2','des_liq' =>'JUMPER RCA','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '69','des_liq' =>'CAUSA CLIENTE','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '42','des_liq' =>'FIBRA OPTICA','visit_type' =>  'Efectiva',],
+            ['cod_liq' => '68','des_liq' =>'SOPORTE AL TECNICO','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => 'S6','des_liq' =>'DESASTRES NATURALES / MOV. SOC','visit_type' =>  'Inefectiva',],
+            ['cod_liq' => '2H','des_liq' =>'CTO','visit_type' =>  'Efectiva',],
+        ]);
+    }
+}
