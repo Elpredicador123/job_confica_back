@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/sistemas/public_html/back.sistemastest.xyz/
+    - export DEPLOYPATH=/home/sistemas/public_html/back.sistemastest.xyz
     - /bin/rsync -a --exclude 'index.php' public/ $DEPLOYPATH
