@@ -29,6 +29,7 @@ class CreateFuturesTable extends Migration
             $table->text('Código de Cliente')->nullable();//queda
             $table->text('Fecha Registro de Actividad en TOA')->nullable();//queda
             $table->text('Tipo de Tecnología Legados')->nullable();//queda
+            $table->timestamps();
         });
     }
 

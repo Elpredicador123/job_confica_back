@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Video;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class VideoController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,21 +16,20 @@ class VideoController extends Controller
     public function index()
     {
         try {
-            $videos = Video::all();
+            $roles = Role::all();
 
             return response()->json([
                 "status" => "success",
-                'message' => 'Listado de videos',
-                'data' => $videos,
+                'message' => 'Listado de roles',
+                'data' => $roles,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                'message' => 'Error: VideoController index',
+                'message' => 'Error: RoleController index',
                 'error' => $e->getMessage(),
             ], 500);
         }
-        
     }
 
     /**
@@ -53,21 +51,17 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         try {
-            $infographic = Video::create($request->except(['file']));
-            if ($request->hasFile('file')) {
-                $url = Storage::disk('public')->put('videos', $request->file('file'));
-                $infographic->url = $url;
-            }
-            $infographic->save();
+            $role = Role::create($request->all());
+
             return response()->json([
                 "status" => "success",
-                'message' => 'Video creada',
-                'data' => $infographic,
+                'message' => 'Rol creado',
+                'data' => $role,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                'message' => 'Error: VideoController store',
+                'message' => 'Error: RoleController store',
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -76,22 +70,23 @@ class VideoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Video  $infographic
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show($infographic_id)
+    public function show($role_id)
     {
         try {
-            $infographic = Video::find($infographic_id);
+            $role = Role::find($role_id);
+
             return response()->json([
                 "status" => "success",
-                'message' => 'Video',
-                'data' => $infographic,
+                'message' => 'Rol encontrado',
+                'data' => $role,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                'message' => 'Error: VideoController show',
+                'message' => 'Error: RoleController show',
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -100,10 +95,10 @@ class VideoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Video  $infographic
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Video $infographic)
+    public function edit(Role $role)
     {
         //
     }
@@ -112,31 +107,24 @@ class VideoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Video  $infographic
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $infographic_id)
+    public function update(Request $request, $role_id)
     {
         try {
-            $infographic = Video::find($infographic_id);
-            $infographic->update($request->except(['file']));
-            if ($request->hasFile('file')) {
-                if ($infographic->url && Storage::disk('public')->exists('videos', $infographic->url)) {
-                    Storage::disk('public')->delete('videos', $infographic->url);
-                }
-                $url = Storage::disk('public')->put('videos', $request->file('file'));
-                $infographic->url = $url;
-            }
-            $infographic->save();
+            $role = Role::find($role_id);
+            $role->update($request->all());
+
             return response()->json([
                 "status" => "success",
-                'message' => 'Video actualizada',
-                'data' => $infographic,
+                'message' => 'Rol actualizado',
+                'data' => $role,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                'message' => 'Error: VideoController update',
+                'message' => 'Error: RoleController update',
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -145,24 +133,23 @@ class VideoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Video  $infographic
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Video $infographic)
+    public function destroy(Role $role)
     {
         try {
-            if ($infographic->url && Storage::disk('public')->exists($infographic->url)) {
-                Storage::disk('public')->delete($infographic->url);
-            }
-            $infographic->delete();
+            $role->delete();
+
             return response()->json([
                 "status" => "success",
-                'message' => 'Video eliminada',
+                'message' => 'Rol eliminado',
+                'data' => $role,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                'message' => 'Error: VideoController destroy',
+                'message' => 'Error: RoleController destroy',
                 'error' => $e->getMessage(),
             ], 500);
         }

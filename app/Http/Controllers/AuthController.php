@@ -36,13 +36,13 @@ class AuthController extends Controller
             ]);
             if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
                 $user = Auth::user();
-                $roles = $user->roles;
-                $permissions = $roles->map->permissions->flatten()->pluck('name')->unique();
+                $role = $user->role;
+                $permissions = $role->permissions;
                 $token = $user->createToken('auth_token')->plainTextToken;
                 return response()->json([
                     'token' => $token,
                     'user' => $user,
-                    'roles' => $roles,
+                    'role' => $role,
                     'permissions' => $permissions,
                 ],200);
             }

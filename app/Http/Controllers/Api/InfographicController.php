@@ -121,8 +121,8 @@ class InfographicController extends Controller
             $infographic = Infographic::find($infographic_id);
             $infographic->update($request->except(['file']));
             if ($request->hasFile('file')) {
-                if ($infographic->url && Storage::disk('public')->exists($infographic->url)) {
-                    Storage::disk('public')->delete($infographic->url);
+                if ($infographic->url && Storage::disk('public')->exists('infographics', $infographic->url)) {
+                    Storage::disk('public')->delete('infographics', $infographic->url);
                 }
                 $url = Storage::disk('public')->put('infographics', $request->file('file'));
                 $infographic->url = $url;

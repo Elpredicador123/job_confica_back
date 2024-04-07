@@ -19,7 +19,7 @@ class ActivitiesImport implements ToCollection, WithBatchInserts, WithChunkReadi
     */
     public function collection(Collection $rows)
     {
-        set_time_limit(0);
+        set_time_limit(200);
         $currentRowNumber = $this->getRowNumber();
         foreach ($rows as $key => $row)
         {

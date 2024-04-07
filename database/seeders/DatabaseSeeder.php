@@ -15,14 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(10)
-        ->hasBirthdays(1)
-        ->hasNews(10)
-        ->hasReservations(10)
-        ->create();
+        //User::factory(10)
+        // ->hasBirthdays(1)
+        // ->hasNews(10)
+        // ->hasReservations(10)
+        //->create();
 
-        Image::factory(50)
-        ->create();
+        // Image::factory(50)
+        // ->create();
 
         $this->call([
             ZoneSeeder::class,

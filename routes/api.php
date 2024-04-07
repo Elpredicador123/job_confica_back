@@ -16,6 +16,9 @@ use App\Http\Controllers\Api\ProvisionController;
 use App\Http\Controllers\Api\MaintenanceController;
 use App\Http\Controllers\Api\QualityController;
 use App\Http\Controllers\Api\TechnicalController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +86,30 @@ Route::group(['prefix' => 'technical'], function ($router) {
     Route::put('/update/{id}', [TechnicalController::class, 'update']);
     Route::delete('/delete/{id}', [TechnicalController::class, 'destroy']);
     Route::get('/carnet/{carnet}', [TechnicalController::class, 'getTechnicalByCarnet']);
+});
+
+Route::group(['prefix' => 'user'], function ($router) {
+    Route::get('/all', [UserController::class, 'index']);
+    Route::post('/store', [UserController::class, 'store']);
+    Route::get('/show/{id}', [UserController::class, 'show']);
+    Route::put('/update/{id}', [UserController::class, 'update']);
+    Route::delete('/delete/{id}', [UserController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'role'], function ($router) {
+    Route::get('/all', [RoleController::class, 'index']);
+    Route::post('/store', [RoleController::class, 'store']);
+    Route::get('/show/{id}', [RoleController::class, 'show']);
+    Route::put('/update/{id}', [RoleController::class, 'update']);
+    Route::delete('/delete/{id}', [RoleController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'permission'], function ($router) {
+    Route::get('/all', [PermissionController::class, 'index']);
+    Route::post('/store', [PermissionController::class, 'store']);
+    Route::get('/show/{id}', [PermissionController::class, 'show']);
+    Route::put('/update/{id}', [PermissionController::class, 'update']);
+    Route::delete('/delete/{id}', [PermissionController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'order'], function ($router) {

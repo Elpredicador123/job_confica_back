@@ -17,9 +17,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -53,9 +51,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reservation::class);
     }
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
+    //pertenece a un rol
+    public function role(){
+        return $this->belongsTo(Role::class);
     }
 }

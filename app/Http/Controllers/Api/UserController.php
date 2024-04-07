@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Video;
-use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class VideoController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,21 +16,27 @@ class VideoController extends Controller
     public function index()
     {
         try {
-            $videos = Video::all();
+            $users = User::join('roles','roles.id', '=','users.role_id' )
+                ->select(
+                    'users.id',
+                    'users.username',
+                    'roles.description as rol',
+                    'users.role_id',
+                )
+                ->get();
 
             return response()->json([
                 "status" => "success",
-                'message' => 'Listado de videos',
-                'data' => $videos,
+                'message' => 'Listado de usuarios',
+                'data' => $users,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                'message' => 'Error: VideoController index',
+                'message' => 'Error: UserController index',
                 'error' => $e->getMessage(),
             ], 500);
         }
-        
     }
 
     /**
@@ -53,21 +58,20 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         try {
-            $infographic = Video::create($request->except(['file']));
-            if ($request->hasFile('file')) {
-                $url = Storage::disk('public')->put('videos', $request->file('file'));
-                $infographic->url = $url;
-            }
-            $infographic->save();
+            $requestData = $request->all();
+            $requestData['password'] = bcrypt($requestData['password']);
+            
+            $user = User::create($requestData);
+
             return response()->json([
                 "status" => "success",
-                'message' => 'Video creada',
-                'data' => $infographic,
+                'message' => 'Usuario creado',
+                'data' => $user,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                'message' => 'Error: VideoController store',
+                'message' => 'Error: UserController store',
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -76,22 +80,23 @@ class VideoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Video  $infographic
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show($infographic_id)
+    public function show($user_id)
     {
         try {
-            $infographic = Video::find($infographic_id);
+            $user = User::find($user_id);
+
             return response()->json([
                 "status" => "success",
-                'message' => 'Video',
-                'data' => $infographic,
+                'message' => 'Usuario encontrado',
+                'data' => $user,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                'message' => 'Error: VideoController show',
+                'message' => 'Error: UserController show',
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -100,10 +105,10 @@ class VideoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Video  $infographic
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(Video $infographic)
+    public function edit(User $user)
     {
         //
     }
@@ -112,31 +117,30 @@ class VideoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Video  $infographic
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $infographic_id)
+    public function update(Request $request, $user_id)
     {
         try {
-            $infographic = Video::find($infographic_id);
-            $infographic->update($request->except(['file']));
-            if ($request->hasFile('file')) {
-                if ($infographic->url && Storage::disk('public')->exists('videos', $infographic->url)) {
-                    Storage::disk('public')->delete('videos', $infographic->url);
-                }
-                $url = Storage::disk('public')->put('videos', $request->file('file'));
-                $infographic->url = $url;
+            $user = User::find($user_id);
+            //si el password viene vacio, no se actualiza, caso contrario se encripta
+            if($request->password != ''){
+                $request['password'] = bcrypt($request->password);
+            }else{
+                unset($request['password']);
             }
-            $infographic->save();
+            $user->update($request->all());
+
             return response()->json([
                 "status" => "success",
-                'message' => 'Video actualizada',
-                'data' => $infographic,
+                'message' => 'Usuario actualizado',
+                'data' => $user,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                'message' => 'Error: VideoController update',
+                'message' => 'Error: UserController update',
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -145,24 +149,23 @@ class VideoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Video  $infographic
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Video $infographic)
+    public function destroy(User $user)
     {
         try {
-            if ($infographic->url && Storage::disk('public')->exists($infographic->url)) {
-                Storage::disk('public')->delete($infographic->url);
-            }
-            $infographic->delete();
+            $user->delete();
+
             return response()->json([
                 "status" => "success",
-                'message' => 'Video eliminada',
+                'message' => 'Usuario eliminado',
+                'data' => $user,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                'message' => 'Error: VideoController destroy',
+                'message' => 'Error: UserController destroy',
                 'error' => $e->getMessage(),
             ], 500);
         }
