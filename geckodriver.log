@@ -1,0 +1,53 @@
+1712540566530	geckodriver	INFO	Listening on 127.0.0.1:55578
+1712540569556	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--window-size=1920,1080" "--remote-debuggi ... 9" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\JESUS\\AppData\\Local\\Temp\\rust_mozprofileeJEDRO"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712540572239	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+console.error: "Warning: unrecognized command line flag" "-window-size"
+1712540572487	Marionette	INFO	Listening on port 55593
+Read port: 55593
+WebDriver BiDi listening on ws://127.0.0.1:55579
+1712540574255	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:55579/devtools/browser/f2e55e8b-b0ff-4b7e-80e5-409070d3b5b8
+JavaScript warning: https://pagead2.googlesyndication.com/bg/z5lzzel_gBxf23vn5owcKp-P0AN7MDAe8Cdc7D8abts.js line 2 > eval line 620 > eval line 1 > eval line 1 > eval, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript warning: https://www.google.com/js/th/dj3fQ02VkJ-0wUDxu-M0mwmplDb53-fJ21anax--gWo.js line 2 > eval line 3874 > eval line 1 > eval line 1 > eval, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
+JavaScript error: resource://gre/modules/XULStore.sys.mjs, line 60: Error: Can't find profile directory.
+1712540596019	Marionette	INFO	Stopped listening on port 55593
+Dynamically enable window occlusion 1
+console.error: Region.sys.mjs: "Error fetching region" (new TypeError("NetworkError when attempting to fetch resource.", "resource://gre/modules/Region.sys.mjs", 738))
+console.error: Region.sys.mjs: "Failed to fetch region" (new Error("NO_RESULT", "resource://gre/modules/Region.sys.mjs", 411))
+1712540603256	addons.xpi	ERROR	System addon update list error Error: Failed downloading XML, status: 0, channelStatus: null, errorCode: 5, reason: error
+JavaScript error: resource://gre/modules/UpdateService.sys.mjs, line 5439: TypeError: request.channel is null
+1712545480026	geckodriver	INFO	Listening on 127.0.0.1:56732
+1712545483173	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--window-size=1920,1080" "--remote-debuggi ... 3" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\JESUS\\AppData\\Local\\Temp\\rust_mozprofileSY4fL5"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712545485385	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+console.error: "Warning: unrecognized command line flag" "-window-size"
+1712545485570	Marionette	INFO	Listening on port 56743
+Read port: 56743
+WebDriver BiDi listening on ws://127.0.0.1:56733
+1712545487525	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:56733/devtools/browser/9609f7ae-ed24-449a-86b2-a94b83749c57
+1712545497828	Marionette	WARN	Ignoring event 'pageshow' because document has an invalid readyState of 'uninitialized'.
+1712545515521	addons.xpi	ERROR	System addon update list error SyntaxError: XMLHttpRequest.open: 'http://%(server)s/dummy-system-addons.xml' is not a valid URL.
+1712545526063	Marionette	INFO	Stopped listening on port 56743
+Dynamically enable window occlusion 1
+ng command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--window-size=1920,1080" "--remote-debuggi ... 7" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\JESUS\\AppData\\Local\\Temp\\rust_mozprofileFU4vsL"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1712545525890	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+console.error: "Warning: unrecognized command line flag" "-window-size"
+1712545526059	Marionette	INFO	Listening on port 56794
+WebDriver BiDi listening on ws://127.0.0.1:56787
+Read port: 56794
+1712545526670	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+DevTools listening on ws://127.0.0.1:56787/devtools/browser/6eb81df3-99d1-4012-8399-d322ce90b54e
+console.error: (new TypeError("this._searchProviderInfo is null", "resource:///modules/SearchSERPTelemetry.sys.mjs", 743))
+console.error: ({})
+1712545558120	addons.xpi	ERROR	System addon update list error SyntaxError: XMLHttpRequest.open: 'http://%(server)s/dummy-system-addons.xml' is not a valid URL.
+1712545825894	Marionette	INFO	Stopped listening on port 56794
+Dynamically enable window occlusion 1

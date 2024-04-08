@@ -102,18 +102,18 @@ class ManagementController extends Controller
             })
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
-                'activities.Nodo_zona as Nodo',
+                'activities.Nodo_zona',
                 DB::raw('SUM(CASE WHEN activities.`Time Slot` = "09-13" THEN 1 ELSE 0 END) AS "09-13"'),
                 DB::raw('SUM(CASE WHEN activities.`Time Slot` = "13-18" THEN 1 ELSE 0 END) AS "13-18"'),
                 DB::raw('
                 SUM(CASE WHEN activities.`Time Slot` = "09-13" THEN 1 ELSE 0 END) + 
                 SUM(CASE WHEN activities.`Time Slot` = "13-18" THEN 1 ELSE 0 END) AS Total')
             )
-            ->groupBy(['Nodo'])
+            ->groupBy(['Nodo_zona'])
             ->orderBy('Total', 'desc')
             ->get();
 
-            $categories = ['Nodo','09-13','13-18','Total'];
+            $categories = ['Nodo_zona','09-13','13-18','Total'];
 
             return response()->json([
                 "status" => "success",

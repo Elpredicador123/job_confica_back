@@ -14,7 +14,7 @@ use App\Http\Controllers\ImportController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/apis');
 });
 
 Route::get('/import', [ImportController::class, 'index'])->name('import.index');
@@ -57,4 +57,11 @@ Route::get('/apis', function () {
         }
     }
     return view('welcome',compact('routes'));
+});
+
+//crear una ruta para hacer un truncate al modelo future
+
+Route::get('/truncatefuture', function () {
+    $model = new App\Models\Future();
+    $model->truncate();
 });

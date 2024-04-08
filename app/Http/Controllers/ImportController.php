@@ -66,7 +66,6 @@ class ImportController extends Controller
         // $this->validate($request, [
         //     'file' => 'required|mimes:xls,xlsx,csv'
         // ]);
-        Future::truncate();
         $time_start = microtime(true);
         $file = $request->file('file');
         Excel::import(new FuturesImport, $file);
