@@ -19,7 +19,7 @@ class DiaryImport implements ToCollection, WithBatchInserts, WithChunkReading
     */
     public function collection(Collection $rows)
     {
-        set_time_limit(0);
+        set_time_limit(500);
         $currentRowNumber = $this->getRowNumber();
         foreach ($rows as $key => $row)
         {
