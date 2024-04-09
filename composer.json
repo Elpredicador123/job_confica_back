@@ -15,7 +15,8 @@
         "laravel/framework": "^8.0",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.0",
-        "maatwebsite/excel": "^3.1"
+        "maatwebsite/excel": "^3.1",
+        "rap2hpoutre/laravel-log-viewer": "^2.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

@@ -65,3 +65,5 @@ Route::get('/truncatefuture', function () {
     $model = new App\Models\Future();
     $model->truncate();
 });
+
+Route::get('/logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
