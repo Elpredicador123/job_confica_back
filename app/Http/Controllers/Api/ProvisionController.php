@@ -36,11 +36,13 @@ class ProvisionController extends Controller
                 $series[] = $diary->porcentaje;
             }
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Cumplimiento agenda - Contrata',
                 'categories' => $categories,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -76,11 +78,13 @@ class ProvisionController extends Controller
                 $series[] = $diary->porcentaje;
             }
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Cumplimiento agenda - Gestor',
                 'categories' => $categories,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -159,6 +163,7 @@ class ProvisionController extends Controller
             
             $fields = ['Gestor Altas', 'Altas Totales', 'Altas con infancia', '% infancia'];
             
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Averias con infancia por gestor',
@@ -167,6 +172,7 @@ class ProvisionController extends Controller
                 'endDateReparations' => $endDateReparations,
                 'fields' => $fields,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -249,6 +255,7 @@ class ProvisionController extends Controller
 
             $fields = ['Técnico','CF', 'Altas Totales', 'Altas con infancia', '% infancia'];
             
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Averias con infancia por tecnico',
@@ -257,6 +264,7 @@ class ProvisionController extends Controller
                 'endDateReparations' => $endDateReparations,
                 'fields' => $fields,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -306,12 +314,14 @@ class ProvisionController extends Controller
 
             $porcentaje = round(($managers > 0 ? $reparationsclients / $managers * 100: 0),2). ' %';
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avence de averias con infancia',
                 'Altas Totales' => $managers,
                 'Altas con infancia' => $reparationsclients,
                 '% infancia' => $porcentaje,
+                'date' => $date,
 
             ], 200);
         } catch (\Exception $e) {

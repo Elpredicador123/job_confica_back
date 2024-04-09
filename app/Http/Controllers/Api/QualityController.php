@@ -30,11 +30,13 @@ class QualityController extends Controller
 
             $categories = ['Contrata', 'Inspecciones Totales', 'Inspecciones ausentes', '% Participacion'];
             
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de inspecciones efectivas general',
                 'categories' => $categories,
                 'series' => $audits,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -66,11 +68,13 @@ class QualityController extends Controller
 
             $categories = ['Nombre de Tecnico','CF','Contrata', 'Inspecciones Totales', 'Inspecciones ausentes', '% Participacion'];
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de inspecciones efectivas por tec',
                 'categories' => $categories,
                 'series' => $audits,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -119,11 +123,13 @@ class QualityController extends Controller
 
             $categories = ["Contrata","Fotocheck","Uniforme","PON Power Meter","Jumper Preconectorizado","Cortadora de fibra","Peladora de Drop","Peladora de Acrilato","One Click","Alcohol Isopropilico","Paños Para Limpiar","Total"];
             
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de auditorias general',
                 'categories' => $categories,
                 'series' => $audits,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -174,11 +180,13 @@ class QualityController extends Controller
 
             $categories = ['Nombre de Tecnico','CF','Contrata',"Fotocheck","Uniforme","PON Power Meter","Jumper Preconectorizado","Cortadora de fibra","Peladora de Drop","Peladora de Acrilato","One Click","Alcohol Isopropilico","Paños Para Limpiar","Total"];
             
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de auditorias por tec',
                 'categories' => $categories,
                 'series' => $audits,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -232,11 +240,13 @@ class QualityController extends Controller
 
             $categories = ['Contrata','FALLAS TRIPLEXOR','FALLAS ROSETA OPTICA','FALLAS HGU-CABLE MODEM','FALLAS SPLITER','FALLAS VOIP','Total'];
             
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Evidencia de errores general',
                 'categories' => $categories,
                 'series' => $evidences,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -292,11 +302,13 @@ class QualityController extends Controller
 
             $categories = ['Nombre de Tecnico','CF','Contrata','FALLAS TRIPLEXOR','FALLAS ROSETA OPTICA','FALLAS HGU-CABLE MODEM','FALLAS SPLITER','FALLAS VOIP','Total'];
             
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Evidencia de errores por tecnico',
                 'categories' => $categories,
                 'series' => $evidences,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -326,11 +338,13 @@ class QualityController extends Controller
                 $series[] = $audit->Totales;
             }
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Ratio de inspecciones',
                 'categories' => $categories,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -375,11 +389,13 @@ class QualityController extends Controller
                 $series[] = $audit->Totales;
             }
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Ratio de fotos de TOA',
                 'categories' => $categories,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

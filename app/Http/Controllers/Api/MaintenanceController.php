@@ -39,11 +39,13 @@ class MaintenanceController extends Controller
                 $series[] = $manager->porcentaje;
             }
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Distribucion inefectivas por contrata',
                 'categories' => $categories,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -81,11 +83,13 @@ class MaintenanceController extends Controller
                 $series[] = $manager->total;
             }
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Distribucion inefectivas',
                 'categories' => $categories,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -156,6 +160,7 @@ class MaintenanceController extends Controller
 
             $fields = ['Gestor Altas', 'Altas Totales', 'Altas con infancia', '% infancia'];
             
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Averias reiteradas con infancia por gestor',
@@ -164,6 +169,7 @@ class MaintenanceController extends Controller
                 'endDateReparations' => $endDateReparations,
                 'fields' => $fields,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -238,6 +244,7 @@ class MaintenanceController extends Controller
 
             $fields = ['Técnico','CF', 'Altas Totales', 'Altas con infancia', '% infancia'];
             
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Averias reiteradas con infancia por tecnico',
@@ -246,6 +253,7 @@ class MaintenanceController extends Controller
                 'endDateReparations' => $endDateReparations,
                 'fields' => $fields,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -289,6 +297,8 @@ class MaintenanceController extends Controller
             $resto = 100 - $porcentaje;
             $categories = ['% infancia',''];
             $series = [$porcentaje, $resto];
+
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avence de averias reiteradas con infancia',
@@ -297,6 +307,7 @@ class MaintenanceController extends Controller
                 '% infancia' => $porcentaje,
                 'categories' => $categories,
                 'series' => $series,
+                'date' => $date,
 
             ], 200);
         } catch (\Exception $e) {

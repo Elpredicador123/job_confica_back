@@ -42,11 +42,13 @@ class ControlPanelController extends Controller
             }
             $categories = collect($zones)->groupBy(['Zonal'])->keys();
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de instalaciones',
                 'categories' => $categories,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -80,11 +82,13 @@ class ControlPanelController extends Controller
             
             $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Listado Avance de instalaciones',
                 'fields' => $fields,
                 'series' => $zones,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -122,11 +126,13 @@ class ControlPanelController extends Controller
             }
             $categories = collect($zones)->groupBy(['Zonal'])->keys();
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de mantenimientos',
                 'categories' => $categories,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -157,11 +163,13 @@ class ControlPanelController extends Controller
 
             $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Listado Avance de mantenimientos',
                 'fields' => $fields,
                 'series' => $zones,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -238,11 +246,13 @@ class ControlPanelController extends Controller
             $series = [];
             $series = array_merge($instalaciones->toArray(), $migraciones->toArray());
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Agenda Diaria',
                 'fields' => $fields,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -280,11 +290,13 @@ class ControlPanelController extends Controller
                 $series[] = $manager->Totales;
             }
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Ratio de instalaciones',
                 'labels' => $categories,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -320,11 +332,13 @@ class ControlPanelController extends Controller
                 $series[] = $manager->Totales;
             }
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Ratio de mantenimientos',
                 'labels' => $categories,
                 'series' => $series,
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -370,12 +384,15 @@ class ControlPanelController extends Controller
             foreach ($zones as $manager) {
                 $totales += $manager->Total;
             }
+
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Lista de produccion del dia',
                 'fields' => $categories,
                 'series' => $zones,
                 'totales' => round($totales,2),
+                'date' => $date,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
