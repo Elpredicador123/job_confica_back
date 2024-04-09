@@ -17,5 +17,15 @@
     @if (session('message'))
         <p id="message">{{ session('message') }}</p>
     @endif
+    @if ($errors->any())
+        <div id="errors">
+            <h3>Errores de validación</h3>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </body>
 </html>

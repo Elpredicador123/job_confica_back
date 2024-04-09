@@ -48,10 +48,16 @@ class ImportController extends Controller
 
     public function import(Request $request)
     {
-        // $this->validate($request, [
-        //     'file' => 'required|mimes:xls,xlsx,csv'
-        // ]);
-        Activity::truncate();
+        // $this->validate($request, 
+        //     [
+        //     'file' => 'required|mimes:csv'
+        //     ],
+        //     [
+        //         'file.required' => 'El archivo es requerido',
+        //         'file.mimes' => 'El archivo debe ser de tipo csv'
+        //     ]
+        // );
+        
         $time_start = microtime(true);
         $file = $request->file('file');
         Excel::import(new ActivitiesImport, $file);
