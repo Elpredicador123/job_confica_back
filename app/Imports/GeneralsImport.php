@@ -8,10 +8,13 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\RemembersRowNumber;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class GeneralsImport implements ToCollection, WithBatchInserts, WithChunkReading
+class GeneralsImport implements ToCollection, WithBatchInserts, WithChunkReading, ShouldQueue
 {
     use RemembersRowNumber;
+    use Queueable;
     /**
     * @param array $row
     *
