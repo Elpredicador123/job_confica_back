@@ -57,7 +57,7 @@ class ImportController extends Controller
         //         'file.mimes' => 'El archivo debe ser de tipo csv'
         //     ]
         // );
-        
+        Activity::truncate();
         $time_start = microtime(true);
         $file = $request->file('file');
         Excel::import(new ActivitiesImport, $file);

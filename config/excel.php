@@ -256,7 +256,7 @@ return [
         |
         */
         'batch'       => [
-            'memory_limit' => 60000,
+            'memory_limit' => 600000,
         ],
 
         /*
