@@ -58,6 +58,8 @@ class AuditImport implements ToCollection, WithBatchInserts, WithChunkReading, S
                 'SE CONSIDERA' => $row[27],
                 'MOTIVO' => $row[28],
                 'CONFORMIDAD' => $row[29],
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

@@ -67,6 +67,8 @@ class DiaryImport implements ToCollection, WithBatchInserts, WithChunkReading, S
                 'A_STOPEO' => $row[36],
                 'usu_com' => $row[37],
                 'completados' => $row[38],
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

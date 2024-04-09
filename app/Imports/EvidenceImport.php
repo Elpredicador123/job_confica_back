@@ -73,6 +73,8 @@ class EvidenceImport implements ToCollection, WithBatchInserts, WithChunkReading
                 'JEFATURA' => $row[42],
                 'ZONA4' => $row[43],
                 'Cod_Cliente' => $row[44],
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

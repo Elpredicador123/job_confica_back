@@ -43,6 +43,8 @@ class ActivitiesImport implements ToCollection, WithBatchInserts, WithChunkReadi
                 'Código de Cliente' => $row[65],//queda
                 'Fecha Registro de Actividad en TOA' => $row[78],//queda
                 'Tipo de Tecnología Legados' => $row[130],//queda
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }
