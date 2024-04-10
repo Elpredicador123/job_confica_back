@@ -78,13 +78,17 @@ class ImportController extends Controller
         // $this->validate($request, [
         //     'file' => 'required|mimes:xls,xlsx,csv'
         // ]);
-        $time_start = microtime(true);
-        $file = $request->file('file');
-        Excel::import(new FuturesImport, $file);
-        $filename = $file->getClientOriginalName();
-        $time_end = microtime(true);
-        $execution_time = round(($time_end - $time_start), 2);
-        return redirect()->route('importfuture.index')->with('message', 'Importación de actividades completada '.$filename.' tiempo '.$execution_time);
+        try{
+            $time_start = microtime(true);
+            $file = $request->file('file');
+            Excel::import(new FuturesImport, $file);
+            $filename = $file->getClientOriginalName();
+            $time_end = microtime(true);
+            $execution_time = round(($time_end - $time_start), 2);
+            return redirect()->route('importfuture.index')->with('message', 'Importación de actividades completada '.$filename.' tiempo '.$execution_time);
+        } catch(Exception $ex){
+            Log::info("Error al importar importFuture: "+$ex);
+        }
     }
     
     public function importGeneral(Request $request)
@@ -92,13 +96,17 @@ class ImportController extends Controller
         // $this->validate($request, [
         //     'file' => 'required|mimes:xls,xlsx,csv'
         // ]);
-        $time_start = microtime(true);
-        $file = $request->file('file');
-        Excel::import(new GeneralsImport, $file);
-        $filename = $file->getClientOriginalName();
-        $time_end = microtime(true);
-        $execution_time = round(($time_end - $time_start), 2);
-        return redirect()->route('importgeneral.index')->with('message', 'Importación de actividades completada '.$filename.' tiempo '.$execution_time);
+        try{
+            $time_start = microtime(true);
+            $file = $request->file('file');
+            Excel::import(new GeneralsImport, $file);
+            $filename = $file->getClientOriginalName();
+            $time_end = microtime(true);
+            $execution_time = round(($time_end - $time_start), 2);
+            return redirect()->route('importgeneral.index')->with('message', 'Importación de actividades completada '.$filename.' tiempo '.$execution_time);
+        } catch(Exception $ex){
+            Log::info("Error al importar importGeneral: "+$ex);
+        }
     }
 
     public function importDiary(Request $request)
@@ -106,13 +114,17 @@ class ImportController extends Controller
         // $this->validate($request, [
         //     'file' => 'required|mimes:xls,xlsx,csv'
         // ]);
-        $time_start = microtime(true);
-        $file = $request->file('file');
-        Excel::import(new DiaryImport, $file);
-        $filename = $file->getClientOriginalName();
-        $time_end = microtime(true);
-        $execution_time = round(($time_end - $time_start), 2);
-        return redirect()->route('importdiary.index')->with('message', 'Importación de agenda completada '.$filename.' tiempo '.$execution_time);
+        try{
+            $time_start = microtime(true);
+            $file = $request->file('file');
+            Excel::import(new DiaryImport, $file);
+            $filename = $file->getClientOriginalName();
+            $time_end = microtime(true);
+            $execution_time = round(($time_end - $time_start), 2);
+            return redirect()->route('importdiary.index')->with('message', 'Importación de agenda completada '.$filename.' tiempo '.$execution_time);
+        } catch(Exception $ex){
+            Log::info("Error al importar importDiary: "+$ex);
+        }
     }
 
     public function importAudit(Request $request)
@@ -120,13 +132,17 @@ class ImportController extends Controller
         // $this->validate($request, [
         //     'file' => 'required|mimes:xls,xlsx,csv'
         // ]);
-        $time_start = microtime(true);
-        $file = $request->file('file');
-        Excel::import(new AuditImport, $file);
-        $filename = $file->getClientOriginalName();
-        $time_end = microtime(true);
-        $execution_time = round(($time_end - $time_start), 2);
-        return redirect()->route('importaudit.index')->with('message', 'Importación de auditoria completada '.$filename.' tiempo '.$execution_time);
+        try{
+            $time_start = microtime(true);
+            $file = $request->file('file');
+            Excel::import(new AuditImport, $file);
+            $filename = $file->getClientOriginalName();
+            $time_end = microtime(true);
+            $execution_time = round(($time_end - $time_start), 2);
+            return redirect()->route('importaudit.index')->with('message', 'Importación de auditoria completada '.$filename.' tiempo '.$execution_time);
+        } catch(Exception $ex){
+            Log::info("Error al importar importAudit: "+$ex);
+        }
     }
 
     public function importEvidence(Request $request)
@@ -134,12 +150,16 @@ class ImportController extends Controller
         // $this->validate($request, [
         //     'file' => 'required|mimes:xls,xlsx,csv'
         // ]);
-        $time_start = microtime(true);
-        $file = $request->file('file');
-        Excel::import(new EvidenceImport, $file);
-        $filename = $file->getClientOriginalName();
-        $time_end = microtime(true);
-        $execution_time = round(($time_end - $time_start), 2);
-        return redirect()->route('importevidence.index')->with('message', 'Importación de evidencia completada '.$filename.' tiempo '.$execution_time);
+        try{
+            $time_start = microtime(true);
+            $file = $request->file('file');
+            Excel::import(new EvidenceImport, $file);
+            $filename = $file->getClientOriginalName();
+            $time_end = microtime(true);
+            $execution_time = round(($time_end - $time_start), 2);
+            return redirect()->route('importevidence.index')->with('message', 'Importación de evidencia completada '.$filename.' tiempo '.$execution_time);
+        } catch(Exception $ex){
+            Log::info("Error al importar importEvidence: "+$ex);
+        }
     }
 }

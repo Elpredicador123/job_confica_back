@@ -22,7 +22,8 @@ class FuturesImport implements ToCollection, WithBatchInserts, WithChunkReading,
     */
     public function collection(Collection $rows)
     {
-        set_time_limit(200);
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
         $currentRowNumber = $this->getRowNumber();
         foreach ($rows as $key => $row)
         {
