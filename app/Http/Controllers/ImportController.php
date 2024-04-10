@@ -12,6 +12,7 @@ use App\Imports\EvidenceImport;
 use App\Models\Activity;
 use App\Models\Future;
 use Excel;
+use Exception;
 
 class ImportController extends Controller
 {
@@ -57,14 +58,20 @@ class ImportController extends Controller
         //         'file.mimes' => 'El archivo debe ser de tipo csv'
         //     ]
         // );
-        Activity::truncate();
-        $time_start = microtime(true);
-        $file = $request->file('file');
-        Excel::import(new ActivitiesImport, $file);
-        $filename = $file->getClientOriginalName();
-        $time_end = microtime(true);
-        $execution_time = round(($time_end - $time_start), 2);
-        return redirect()->route('import.index')->with('message', 'Importación de actividades completada archivo '.$filename.' tiempo '.$execution_time);
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
+        try{
+            Activity::truncate();
+            $time_start = microtime(true);
+            $file = $request->file('file');
+            Excel::import(new ActivitiesImport, $file);
+            $filename = $file->getClientOriginalName();
+            $time_end = microtime(true);
+            $execution_time = round(($time_end - $time_start), 2);
+            return redirect()->route('import.index')->with('message', 'Importación de actividades completada archivo '.$filename.' tiempo '.$execution_time);
+        } catch(Exception $ex){
+            Log::info("Error al importar Activity: "+$ex);
+        }
     }
 
     public function importFuture(Request $request)
