@@ -59,8 +59,6 @@ class ImportController extends Controller
         //         'file.mimes' => 'El archivo debe ser de tipo csv'
         //     ]
         // );
-        ini_set('memory_limit', '-1');
-        set_time_limit(200);
         try{
             Activity::truncate();
             $time_start = microtime(true);
