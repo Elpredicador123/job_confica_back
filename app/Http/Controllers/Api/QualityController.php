@@ -327,7 +327,7 @@ class QualityController extends Controller
             //->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0"),"-",LPAD(audits.DIA,2,"0")) = CURRENT_DATE')
             ->select(
                 'audits.CONFORMIDAD',
-                DB::raw('COUNT(*) AS `Totales`'),
+                DB::raw('COUNT(*) AS `Totales`')
             )
             ->groupBy('audits.CONFORMIDAD')
             ->get();
