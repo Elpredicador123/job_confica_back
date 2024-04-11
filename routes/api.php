@@ -156,10 +156,10 @@ Route::group(['prefix' => 'maintenance'], function ($router) {
 });
 
 Route::group(['prefix' => 'quality'], function ($router) {
-    Route::get('/inspectioneffectivenesstable/{citie_name?}', [QualityController::class, 'getInspectionEffectivenessTable']);
-    Route::get('/inspectioneffectivenessbytectable/{citie_name?}', [QualityController::class, 'getInspectionEffectivenessByTecTable']);
-    Route::get('/auditsprogresstable/{citie_name?}', [QualityController::class, 'getAuditsProgressTable']);
-    Route::get('/auditsprogressbytectable/{citie_name?}', [QualityController::class, 'getAuditsProgressByTecTable']);
+    Route::get('/inspectioneffectivenesstable/{citie_name?}/{month}', [QualityController::class, 'getInspectionEffectivenessTable']);
+    Route::get('/inspectioneffectivenessbytectable/{citie_name?}/{month}', [QualityController::class, 'getInspectionEffectivenessByTecTable']);
+    Route::get('/auditsprogresstable/{citie_name?}/{month}', [QualityController::class, 'getAuditsProgressTable']);
+    Route::get('/auditsprogressbytectable/{citie_name?}/{month}', [QualityController::class, 'getAuditsProgressByTecTable']);
     Route::get('/errorsevidencetable/{citie_name?}', [QualityController::class, 'getErrorsEvidenceTable']);
     Route::get('/errorsevidencebytectable/{citie_name?}', [QualityController::class, 'getErrorsEvidenceByTecTable']);
     Route::get('/errorinspectionratiotable', [QualityController::class, 'getErrorInspectionRatioTable']);

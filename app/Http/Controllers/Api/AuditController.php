@@ -22,7 +22,7 @@ class AuditController extends Controller
             ->get();
             return response()->json([
                 "status" => "success",
-                'message' => 'Lista de meses',
+                'message' => 'Lista de meses de auditorias',
                 'data' => $months
             ], 200);
         } catch (\Exception $e) {

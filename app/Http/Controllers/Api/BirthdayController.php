@@ -144,9 +144,10 @@ class BirthdayController extends Controller
      * @param  \App\Models\Birthday  $birthday
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Birthday $birthday)
+    public function destroy($birthday_id)
     {
         try {
+            $birthday = Birthday::find($birthday_id);
             $birthday->delete();
             return response()->json([
                 "status" => "success",

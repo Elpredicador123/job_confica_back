@@ -12,12 +12,12 @@ use Carbon\Carbon;
 class QualityController extends Controller
 {
 
-    public function getInspectionEffectivenessTable($citie_name='')
+    public function getInspectionEffectivenessTable($citie_name='',$month ='')
     {
         try {
             $audits = Audit::join('technicals', 'technicals.Carnet', '=', 'audits.Carnet de Tecnico')
             ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
-            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0"),"-",LPAD(audits.DIA,2,"0")) = CURRENT_DATE')
+            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month])
             ->select(
                 'technicals.Contrata',
                 DB::raw('COUNT(*) AS `Inspecciones Totales`'),
@@ -48,12 +48,12 @@ class QualityController extends Controller
         }
     }
 
-    public function getInspectionEffectivenessByTecTable($citie_name='')
+    public function getInspectionEffectivenessByTecTable($citie_name='',$month ='')
     {
         try {
             $audits = Audit::join('technicals', 'technicals.Carnet', '=', 'audits.Carnet de Tecnico')
             ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
-            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0"),"-",LPAD(audits.DIA,2,"0")) = CURRENT_DATE')
+            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month])
             ->select(
                 'technicals.Nombre_Completo as Nombre de Tecnico',
                 'audits.Carnet de Tecnico as CF',
@@ -86,12 +86,12 @@ class QualityController extends Controller
         }
     }
 
-    public function getAuditsProgressTable($citie_name='')
+    public function getAuditsProgressTable($citie_name='',$month ='')
     {
         try {
             $audits = Audit::join('technicals', 'technicals.Carnet', '=', 'audits.Carnet de Tecnico')
             ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
-            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0"),"-",LPAD(audits.DIA,2,"0")) = CURRENT_DATE')
+            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month])
             ->select(
                 'technicals.Contrata',
                 DB::raw('SUM(CASE WHEN audits.Fotocheck2 = "NO" THEN 1 ELSE 0 END) AS Fotocheck'),
@@ -141,12 +141,12 @@ class QualityController extends Controller
         }
     }
 
-    public function getAuditsProgressByTecTable($citie_name='')
+    public function getAuditsProgressByTecTable($citie_name='',$month ='')
     {
         try {
             $audits = Audit::join('technicals', 'technicals.Carnet', '=', 'audits.Carnet de Tecnico')
             ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
-            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0"),"-",LPAD(audits.DIA,2,"0")) = CURRENT_DATE')
+            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month])
             ->select(
                 'technicals.Nombre_Completo as Nombre de Tecnico',
                 'audits.Carnet de Tecnico as CF',
