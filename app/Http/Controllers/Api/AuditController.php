@@ -18,9 +18,9 @@ class AuditController extends Controller
     {
         try {
             $months = Audit::select(
-                DB::raw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0"),"-",LPAD(audits.DIA,2,"0")) as MES ')
+                DB::raw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) as MES')
             )
-            ->groupBy(['audits.MES'])
+            ->groupBy(DB::raw('CONCAT(audits.AÑO,"-",audits.MES)'))
             ->get();
             return response()->json([
                 "status" => "success",
