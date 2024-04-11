@@ -379,7 +379,7 @@ class QualityController extends Controller
             ,"-",LPAD(evidence.Día,2,"0")) = CURRENT_DATE')*/
             ->select(
                 'evidence.RESULTADO',
-                DB::raw('COUNT(*) AS `Totales`'),
+                DB::raw('COUNT(*) AS `Totales`')
             )
             ->groupBy('evidence.RESULTADO')
             ->get();
