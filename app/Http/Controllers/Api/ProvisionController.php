@@ -18,7 +18,7 @@ class ProvisionController extends Controller
             $diaries = Diary::join('zones', 'zones.Nodo','=','diaries.NODO')
             ->join('technicals', 'diaries.resourceId', '=', 'technicals.Carnet')
             ->where('zones.Zonal', $citie_name)
-            #->whereRaw('DATE_FORMAT(STR_TO_DATE(diaries.fecha_tde, "%Y%m%d"), "%Y-%m-%d") = CURRENT_DATE')
+            ->whereRaw('DATE_FORMAT(STR_TO_DATE(diaries.fecha_tde, "%Y%m%d"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
                 'technicals.Contrata',
                 DB::raw('ROUND(SUM(diaries.nume) / SUM(diaries.deno) * 100,2) as porcentaje')
@@ -60,7 +60,7 @@ class ProvisionController extends Controller
             $diaries = Diary::join('zones', 'zones.Nodo','=','diaries.NODO')
             ->join('technicals', 'technicals.Carnet', '=','diaries.resourceId')
             ->where('zones.Zonal', $citie_name)
-            #->whereRaw('DATE_FORMAT(STR_TO_DATE(diaries.fecha_tde, "%Y%m%d"), "%Y-%m-%d") = CURRENT_DATE')
+            ->whereRaw('DATE_FORMAT(STR_TO_DATE(diaries.fecha_tde, "%Y%m%d"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
                 'zones.Gestor Altas',
                 DB::raw('ROUND(SUM(diaries.nume) / SUM(diaries.deno) * 100,2) as porcentaje')
