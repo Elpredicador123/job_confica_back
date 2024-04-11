@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\TechnicalController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\AuditController;
 use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
@@ -167,6 +168,10 @@ Route::group(['prefix' => 'quality'], function ($router) {
 
 Route::group(['prefix' => 'city'], function ($router) {
     Route::get('/all', [CityController::class, 'getCities']);
+});
+
+Route::group(['prefix' => 'audit'], function ($router) {
+    Route::get('/months', [AuditController::class, 'getMonths']);
 });
 
 Route::group(['prefix' => 'manager'], function ($router) {

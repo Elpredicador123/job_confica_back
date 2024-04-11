@@ -203,7 +203,7 @@ class QualityController extends Controller
         try {
             $evidences = Evidence::join('technicals', 'technicals.Carnet', '=', 'evidence.CODTECNICO')
             ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
-            ->whereRaw('CONCAT(evidence.AÑO,"-",
+            /*->whereRaw('CONCAT(evidence.AÑO,"-",
             CASE 
                 WHEN evidence.MES = "Enero" THEN "01" 
                 WHEN evidence.MES = "Febrero" THEN "02" 
@@ -218,7 +218,7 @@ class QualityController extends Controller
                 WHEN evidence.MES = "Noviembre" THEN "11" 
                 WHEN evidence.MES = "Diciembre" THEN "12" 
                 ELSE "01" END
-            ,"-",LPAD(evidence.Día,2,"0")) = CURRENT_DATE')
+            ,"-",LPAD(evidence.Día,2,"0")) = CURRENT_DATE')*/
             ->select(
                 'technicals.Contrata',
                 DB::raw('SUM(CASE WHEN evidence.`C_TRIPLEXOR` = "NO CONFORME" THEN 1 ELSE 0 END) AS `FALLAS TRIPLEXOR`'),
@@ -263,7 +263,7 @@ class QualityController extends Controller
         try {
             $evidences = Evidence::join('technicals', 'technicals.Carnet', '=', 'evidence.CODTECNICO')
             ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
-            ->whereRaw('CONCAT(evidence.AÑO,"-",
+            /*->whereRaw('CONCAT(evidence.AÑO,"-",
             CASE 
                 WHEN evidence.MES = "Enero" THEN "01" 
                 WHEN evidence.MES = "Febrero" THEN "02" 
@@ -278,7 +278,7 @@ class QualityController extends Controller
                 WHEN evidence.MES = "Noviembre" THEN "11" 
                 WHEN evidence.MES = "Diciembre" THEN "12" 
                 ELSE "01" END
-            ,"-",LPAD(evidence.Día,2,"0")) = CURRENT_DATE')
+            ,"-",LPAD(evidence.Día,2,"0")) = CURRENT_DATE')*/
             ->select(
                 'technicals.Nombre_Completo as Nombre de Tecnico',
                 'evidence.CODTECNICO as CF',
@@ -323,7 +323,8 @@ class QualityController extends Controller
     public function getErrorInspectionRatioTable()
     {
         try {
-            $audits = Audit::whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0"),"-",LPAD(audits.DIA,2,"0")) = CURRENT_DATE')
+            $audits = Audit::query()
+            //->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0"),"-",LPAD(audits.DIA,2,"0")) = CURRENT_DATE')
             ->select(
                 'audits.CONFORMIDAD',
                 DB::raw('COUNT(*) AS `Totales`'),
@@ -359,7 +360,8 @@ class QualityController extends Controller
     public function getErrorFotosToaRatioTable()
     {
         try {
-            $evidences = Evidence::whereRaw('CONCAT(evidence.AÑO,"-",
+            $evidences = Evidence::query()
+            /*->whereRaw('CONCAT(evidence.AÑO,"-",
             CASE 
                 WHEN evidence.MES = "Enero" THEN "01" 
                 WHEN evidence.MES = "Febrero" THEN "02" 
@@ -374,7 +376,7 @@ class QualityController extends Controller
                 WHEN evidence.MES = "Noviembre" THEN "11" 
                 WHEN evidence.MES = "Diciembre" THEN "12" 
                 ELSE "01" END
-            ,"-",LPAD(evidence.Día,2,"0")) = CURRENT_DATE')
+            ,"-",LPAD(evidence.Día,2,"0")) = CURRENT_DATE')*/
             ->select(
                 'evidence.RESULTADO',
                 DB::raw('COUNT(*) AS `Totales`'),

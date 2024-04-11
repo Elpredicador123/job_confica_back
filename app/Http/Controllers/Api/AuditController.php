@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Audit;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class AuditController extends Controller
 {
@@ -12,6 +14,28 @@ class AuditController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getMonths()
+    {
+        try {
+            $months = Audit::select(
+                DB::raw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0"),"-",LPAD(audits.DIA,2,"0")) as MES ')
+            )
+            ->groupBy(['audits.MES'])
+            ->get();
+            return response()->json([
+                "status" => "success",
+                'message' => 'Lista de meses',
+                'data' => $months
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: AuditController getMonths',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function index()
     {
         //
