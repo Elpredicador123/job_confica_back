@@ -132,7 +132,7 @@ class VideoController extends Controller
                 "status" => "success",
                 'message' => 'Video actualizada',
                 'data' => $video,
-                'request' => $request,
+                'request' => $request->all(),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

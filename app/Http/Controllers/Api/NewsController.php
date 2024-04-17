@@ -160,7 +160,7 @@ class NewsController extends Controller
                 "status" => "success",
                 'message' => 'Noticia actualizada correctamente',
                 'data' => $news,
-                'request' => $request,
+                'request' => $request->all(),
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
