@@ -71,7 +71,11 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         try {
-            $news = News::create($request->except(['files']));
+
+            $News_id = $request->input('id');
+            $data = $request->except(['id', 'files']);
+            $News = News::updateOrCreate(['id' => $News_id],$data);
+
             if ($request->hasFile('files')) {
                 foreach ($request->file('files') as $file) {
                     $url = Storage::disk('public')->put('images', $file);

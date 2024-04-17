@@ -53,7 +53,10 @@ class InfographicController extends Controller
     public function store(Request $request)
     {
         try {
-            $infographic = Infographic::create($request->except(['file']));
+            $infographic_id = $request->input('id');
+            $data = $request->except(['id', 'file']);
+            $infographic = Infographic::updateOrCreate(['id' => $infographic_id],$data);
+            
             if ($request->hasFile('file')) {
                 $url = Storage::disk('public')->put('infographics', $request->file('file'));
                 $infographic->url = $url;

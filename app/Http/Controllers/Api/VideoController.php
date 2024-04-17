@@ -53,7 +53,10 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         try {
-            $video = Video::create($request->except(['file']));
+            $video_id = $request->input('id');
+            $data = $request->except(['id', 'file']);
+            $video = Video::updateOrCreate(['id' => $video_id],$data);
+
             if ($request->hasFile('file')) {
                 $url = Storage::disk('public')->put('videos', $request->file('file'));
                 $video->url = $url;
