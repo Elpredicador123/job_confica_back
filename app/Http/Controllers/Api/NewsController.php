@@ -72,9 +72,9 @@ class NewsController extends Controller
     {
         try {
 
-            $News_id = $request->input('id');
+            $news_id = $request->input('id');
             $data = $request->except(['id', 'files']);
-            $News = News::updateOrCreate(['id' => $News_id],$data);
+            $news = News::updateOrCreate(['id' => $news_id],$data);
 
             if ($request->hasFile('files')) {
                 foreach ($request->file('files') as $file) {
