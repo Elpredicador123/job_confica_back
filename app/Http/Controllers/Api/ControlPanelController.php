@@ -392,6 +392,13 @@ class ControlPanelController extends Controller
             $total->Total = $zones->sum('Total');
             $zones->push($total);
 
+            // agregarle a cada Altas, Averias y Total el signo de pesos
+            foreach ($zones as $manager) {
+                $manager->Altas = 'S/ '.number_format($manager->Altas, 2, '.', ',');
+                $manager->Averias = 'S/ '.number_format($manager->Averias, 2, '.', ',');
+                $manager->Total = 'S/ '.number_format($manager->Total, 2, '.', ',');
+            }
+
             $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
