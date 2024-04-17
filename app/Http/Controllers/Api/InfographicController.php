@@ -132,6 +132,7 @@ class InfographicController extends Controller
                 "status" => "success",
                 'message' => 'Infografía actualizada',
                 'data' => $infographic,
+                'request' => $request,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
