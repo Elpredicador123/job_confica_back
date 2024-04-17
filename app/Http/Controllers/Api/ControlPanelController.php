@@ -363,11 +363,11 @@ class ControlPanelController extends Controller
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
                 'zones.Zonal as Ciudad',
-                DB::raw('CONCAT("S/ ",SUM(
+                DB::raw('SUM(
                     CASE WHEN 
                         activities.`Subtipo de Actividad` LIKE "%Migración%" OR
-                        activities.`Subtipo de Actividad` LIKE "%Instalación%" THEN 1 ELSE 0 END)*133.71) AS Altas'),
-                DB::raw('CONCAT("S/ ",SUM(CASE WHEN activities.`Subtipo de Actividad` LIKE "%Reparación%" THEN 1 ELSE 0 END)*66.18) AS Averias'),
+                        activities.`Subtipo de Actividad` LIKE "%Instalación%" THEN 1 ELSE 0 END)*133.71 AS Altas'),
+                DB::raw('SUM(CASE WHEN activities.`Subtipo de Actividad` LIKE "%Reparación%" THEN 1 ELSE 0 END)*66.18 AS Averias'),
                 DB::raw('SUM(
                     CASE WHEN 
                         activities.`Subtipo de Actividad` LIKE "%Migración%" OR
@@ -384,6 +384,13 @@ class ControlPanelController extends Controller
             foreach ($zones as $manager) {
                 $totales += $manager->Total;
             }
+
+            $total = new \stdClass();
+            $total->Ciudad = 'Total';
+            $total->Altas = $zones->sum('Altas');
+            $total->Averias = $zones->sum('Averias');
+            $total->Total = $zones->sum('Total');
+            $zones->push($total);
 
             $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
