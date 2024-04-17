@@ -120,9 +120,10 @@ class BirthdayController extends Controller
      * @param  \App\Models\Birthday  $birthday
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Birthday $birthday)
+    public function update(Request $request, $birthday_id)
     {
         try {
+            $birthday = Birthday::find($birthday_id);
             $birthday->update($request->all());
             return response()->json([
                 "status" => "success",

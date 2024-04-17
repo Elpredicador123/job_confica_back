@@ -53,16 +53,16 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         try {
-            $infographic = Video::create($request->except(['file']));
+            $video = Video::create($request->except(['file']));
             if ($request->hasFile('file')) {
                 $url = Storage::disk('public')->put('videos', $request->file('file'));
-                $infographic->url = $url;
+                $video->url = $url;
             }
-            $infographic->save();
+            $video->save();
             return response()->json([
                 "status" => "success",
                 'message' => 'Video creada',
-                'data' => $infographic,
+                'data' => $video,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -103,7 +103,7 @@ class VideoController extends Controller
      * @param  \App\Models\Video  $infographic
      * @return \Illuminate\Http\Response
      */
-    public function edit(Video $infographic)
+    public function edit(Video $video)
     {
         //
     }
@@ -112,26 +112,26 @@ class VideoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Video  $infographic
+     * @param  \App\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $infographic_id)
+    public function update(Request $request, $video_id)
     {
         try {
-            $infographic = Video::find($infographic_id);
-            $infographic->update($request->except(['file']));
+            $video = Video::find($video_id);
+            $video->update($request->except(['file']));
             if ($request->hasFile('file')) {
-                if ($infographic->url && Storage::disk('public')->exists('videos', $infographic->url)) {
-                    Storage::disk('public')->delete('videos', $infographic->url);
+                if ($video->url && Storage::disk('public')->exists('videos', $video->url)) {
+                    Storage::disk('public')->delete('videos', $video->url);
                 }
                 $url = Storage::disk('public')->put('videos', $request->file('file'));
-                $infographic->url = $url;
+                $video->url = $url;
             }
-            $infographic->save();
+            $video->save();
             return response()->json([
                 "status" => "success",
                 'message' => 'Video actualizada',
-                'data' => $infographic,
+                'data' => $video,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -145,16 +145,16 @@ class VideoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Video  $infographic
+     * @param  \App\Models\Video  $video
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Video $infographic)
+    public function destroy(Video $video)
     {
         try {
-            if ($infographic->url && Storage::disk('public')->exists($infographic->url)) {
-                Storage::disk('public')->delete($infographic->url);
+            if ($video->url && Storage::disk('public')->exists($video->url)) {
+                Storage::disk('public')->delete($video->url);
             }
-            $infographic->delete();
+            $video->delete();
             return response()->json([
                 "status" => "success",
                 'message' => 'Video eliminada',

@@ -155,6 +155,7 @@ class NewsController extends Controller
                     $image->save();
                 }
             }
+            $news->save();
             return response()->json([
                 "status" => "success",
                 'message' => 'Noticia actualizada correctamente',
