@@ -18,7 +18,7 @@ class Cors
     {
         return $next($request)
         //https://comficaconect.com/
-            ->header('Access-Control-Allow-Origin', 'https://comficaconect.com')
+            ->header('Access-Control-Allow-Origin', ['http://localhost:8080', 'https://comficaconect.com'])
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
             ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
