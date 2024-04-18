@@ -75,14 +75,18 @@ class NewsController extends Controller
             $news_id = $request->input('id');
             $data = $request->except(['id', 'files','images']);
             $news = News::updateOrCreate(['id' => $news_id],$data);
-
+            
             if ($request->has('images')) {
-                foreach ($request->input('images') as $image_id) {
-                    $image = Image::find($image_id);
-                    Storage::disk('public')->delete('images',$image->url);
-                    $image->delete();
+                $imageIds = $request->input('images');
+                if (is_array($imageIds)) {
+                    foreach ($imageIds as $imageId) {
+                        $image = Image::find($imageId);
+                        Storage::disk('public')->delete($image->url);
+                        $image->delete();
+                    }
                 }
             }
+                
 
             if ($request->hasFile('files')) {
                 foreach ($request->file('files') as $file) {
@@ -93,7 +97,7 @@ class NewsController extends Controller
                     $image->save();
                 }
             }
-            
+
             return response()->json([
                 "status" => "success",
                 'message' => 'Noticia creada correctamente',
