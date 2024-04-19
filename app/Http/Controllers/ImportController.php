@@ -50,15 +50,14 @@ class ImportController extends Controller
 
     public function import(Request $request)
     {
-        // $this->validate($request, 
-        //     [
-        //     'file' => 'required|mimes:csv'
-        //     ],
-        //     [
-        //         'file.required' => 'El archivo es requerido',
-        //         'file.mimes' => 'El archivo debe ser de tipo csv'
-        //     ]
-        // );
+        
+        $this->validate($request, [
+            'file' => 'required|mimetypes:text/plain'
+        ],
+        [
+            'file.required' => 'El archivo es requerido',
+            'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
+        ]);
         try{
             Activity::truncate();
             $time_start = microtime(true);
@@ -75,9 +74,14 @@ class ImportController extends Controller
 
     public function importFuture(Request $request)
     {
-        // $this->validate($request, [
-        //     'file' => 'required|mimes:xls,xlsx,csv'
-        // ]);
+        
+        $this->validate($request, [
+            'file' => 'required|mimetypes:text/plain'
+        ],
+        [
+            'file.required' => 'El archivo es requerido',
+            'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
+        ]);
         try{
             $time_start = microtime(true);
             $file = $request->file('file');
@@ -93,9 +97,14 @@ class ImportController extends Controller
     
     public function importGeneral(Request $request)
     {
-        // $this->validate($request, [
-        //     'file' => 'required|mimes:xls,xlsx,csv'
-        // ]);
+        
+        $this->validate($request, [
+            'file' => 'required|mimetypes:text/plain'
+        ],
+        [
+            'file.required' => 'El archivo es requerido',
+            'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
+        ]);
         try{
             $time_start = microtime(true);
             $file = $request->file('file');
@@ -111,10 +120,16 @@ class ImportController extends Controller
 
     public function importDiary(Request $request)
     {
-        // $this->validate($request, [
-        //     'file' => 'required|mimes:xls,xlsx,csv'
-        // ]);
+        
+        $this->validate($request, [
+            'file' => 'required|mimetypes:text/plain'
+        ],
+        [
+            'file.required' => 'El archivo es requerido',
+            'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
+        ]);
         try{
+            Diary::truncate();
             $time_start = microtime(true);
             $file = $request->file('file');
             Excel::import(new DiaryImport, $file);
@@ -129,10 +144,16 @@ class ImportController extends Controller
 
     public function importAudit(Request $request)
     {
-        // $this->validate($request, [
-        //     'file' => 'required|mimes:xls,xlsx,csv'
-        // ]);
+        
+        $this->validate($request, [
+            'file' => 'required|mimetypes:text/plain'
+        ],
+        [
+            'file.required' => 'El archivo es requerido',
+            'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
+        ]);
         try{
+            Audit::truncate();
             $time_start = microtime(true);
             $file = $request->file('file');
             Excel::import(new AuditImport, $file);
@@ -147,10 +168,16 @@ class ImportController extends Controller
 
     public function importEvidence(Request $request)
     {
-        // $this->validate($request, [
-        //     'file' => 'required|mimes:xls,xlsx,csv'
-        // ]);
+        
+        $this->validate($request, [
+            'file' => 'required|mimetypes:text/plain'
+        ],
+        [
+            'file.required' => 'El archivo es requerido',
+            'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
+        ]);
         try{
+            Evidence::truncate();
             $time_start = microtime(true);
             $file = $request->file('file');
             Excel::import(new EvidenceImport, $file);
