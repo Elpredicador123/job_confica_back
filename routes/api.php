@@ -130,6 +130,8 @@ Route::group(['prefix' => 'control-panel'], function ($router) {
     Route::get('/installationratiographic', [ControlPanelController::class, 'getInstallationRatioGraphic']);
     Route::get('/maintenanceratiographic', [ControlPanelController::class, 'getMaintenanceRatioGraphic']);
     Route::get('/productiontable', [ControlPanelController::class, 'getProductionTable']);
+    Route::get('/productiontableinstallation', [ControlPanelController::class, 'getProductionTableInstallations']);
+    Route::get('/productiontablemaintenance', [ControlPanelController::class, 'getProductionTableMaintenance']);
 });
 
 Route::group(['prefix' => 'management'], function ($router) {

@@ -392,7 +392,6 @@ class ControlPanelController extends Controller
             $total->Total = $zones->sum('Total');
             $zones->push($total);
 
-            // agregarle a cada Altas, Averias y Total el signo de pesos
             foreach ($zones as $manager) {
                 $manager->Altas = 'S/ '.number_format($manager->Altas, 2, '.', ',');
                 $manager->Averias = 'S/ '.number_format($manager->Averias, 2, '.', ',');
@@ -412,6 +411,101 @@ class ControlPanelController extends Controller
             return response()->json([
                 "status" => "error",
                 'message' => 'Error: ControlPanelController getProductionTable',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getProductionTableInstallations()
+    {
+        try {
+            $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
+            ->whereIn('activities.Estado actividad', ['Completado'])
+            ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
+            ->where(function ($query) {
+                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%');
+            })
+            #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
+            ->select(
+                'zones.Zonal as Ciudad',
+                DB::raw('SUM(
+                    CASE WHEN 
+                        activities.`Subtipo de Actividad` LIKE "%Migración%" OR
+                        activities.`Subtipo de Actividad` LIKE "%Instalación%" THEN 1 ELSE 0 END)*133.71 AS Altas'),
+            )
+            ->groupBy(['zones.Zonal'])
+            ->orderBy('zones.Zonal', 'asc')
+            ->get();
+
+            $categories = [];
+            $series = [];
+            $totales = 0;
+
+            foreach ($zones as $manager) {
+                $categories[] = $manager->Ciudad ;
+                $series[] = 'S/ '.number_format($manager->Altas, 2, '.', ',');
+                $totales += $manager->Altas;
+            }
+
+            $date = Carbon::now()->format('d/m/Y H:i:s');
+            return response()->json([
+                "status" => "success",
+                'message' => 'Lista de produccion del dia de instalaciones',
+                'fields' => $categories,
+                'series' => $series,
+                'totales' => round($totales,2),
+                'date' => $date,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: ControlPanelController getProductionTableInstallations',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    public function getProductionTableMaintenance()
+    {
+        try {
+            $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
+            ->whereIn('activities.Estado actividad', ['Completado'])
+            ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
+            ->where(function ($query) {
+                $query->where('activities.Subtipo de Actividad','LIKE', '%Reparación%');
+            })
+            #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
+            ->select(
+                'zones.Zonal as Ciudad',
+                DB::raw('SUM(CASE WHEN activities.`Subtipo de Actividad` LIKE "%Reparación%" THEN 1 ELSE 0 END)*66.18 AS Averias'),
+            )
+            ->groupBy(['zones.Zonal'])
+            ->orderBy('zones.Zonal', 'asc')
+            ->get();
+
+            $categories = [];
+            $series = [];
+            $totales = 0;
+
+            foreach ($zones as $manager) {
+                $categories[] = $manager->Ciudad ;
+                $series[] = 'S/ '.number_format($manager->Averias, 2, '.', ',');
+                $totales += $manager->Averias;
+            }
+
+            $date = Carbon::now()->format('d/m/Y H:i:s');
+            return response()->json([
+                "status" => "success",
+                'message' => 'Lista de produccion del dia de reparaciones',
+                'fields' => $categories,
+                'series' => $series,
+                'totales' => round($totales,2),
+                'date' => $date,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: ControlPanelController getProductionTableMaintenance',
                 'error' => $e->getMessage(),
             ], 500);
         }
