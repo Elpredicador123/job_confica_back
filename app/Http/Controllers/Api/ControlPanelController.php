@@ -18,8 +18,8 @@ class ControlPanelController extends Controller
             ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente'])
             ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('activities.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
@@ -66,8 +66,8 @@ class ControlPanelController extends Controller
             ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente'])
             ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('activities.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
@@ -104,7 +104,7 @@ class ControlPanelController extends Controller
         try {
             $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
             ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente'])
-            ->where('activities.Subtipo de Actividad','LIKE', '%Reparación%')
+            ->where('activities.Subtipo de Actividad','LIKE', '%eparaci%')
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
                 'activities.Estado actividad',
@@ -148,7 +148,7 @@ class ControlPanelController extends Controller
         try {
             $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
             ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente'])
-            ->where('activities.Subtipo de Actividad','LIKE', '%Reparación%')
+            ->where('activities.Subtipo de Actividad','LIKE', '%eparaci%')
             ->select('zones.Zonal','activities.Estado actividad')
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
@@ -198,8 +198,8 @@ class ControlPanelController extends Controller
             ->where('futures.Tipo de Cita','LIKE', '%Cliente%')
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('futures.Subtipo de Actividad','LIKE', '%Instalación%')
-                ->where('futures.Subtipo de Actividad','NOT LIKE', '%Migración%');
+                $query->where('futures.Subtipo de Actividad','LIKE', '%nstalaci%')
+                ->where('futures.Subtipo de Actividad','NOT LIKE', '%igraci%');
             })
             ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDate, $endDate])
             ->select(
@@ -222,8 +222,8 @@ class ControlPanelController extends Controller
             ->where('futures.Tipo de Cita','LIKE', '%Cliente%')
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('futures.Subtipo de Actividad','LIKE', '%Migración%')
-                ->where('futures.Subtipo de Actividad','NOT LIKE', '%Instalación%');
+                $query->where('futures.Subtipo de Actividad','LIKE', '%igraci%')
+                ->where('futures.Subtipo de Actividad','NOT LIKE', '%nstalaci%');
             })
             ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDate, $endDate])
             ->select(
@@ -270,8 +270,8 @@ class ControlPanelController extends Controller
             ->whereIn('activities.Estado actividad', ['Completado'])
             ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('activities.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
@@ -313,7 +313,7 @@ class ControlPanelController extends Controller
             $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
             ->whereIn('activities.Estado actividad', ['Completado'])
             ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
-            ->where('activities.Subtipo de Actividad','LIKE', '%Reparación%')
+            ->where('activities.Subtipo de Actividad','LIKE', '%eparaci%')
             ->where('activities.Tipo de Tecnología Legados','!=', '')
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
@@ -356,22 +356,22 @@ class ControlPanelController extends Controller
             ->whereIn('activities.Estado actividad', ['Completado'])
             ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%')
-                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Reparación%');
+                $query->where('activities.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%nstalaci%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%eparaci%');
             })
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
                 'zones.Zonal as Ciudad',
                 DB::raw('SUM(
                     CASE WHEN 
-                        activities.`Subtipo de Actividad` LIKE "%Migración%" OR
-                        activities.`Subtipo de Actividad` LIKE "%Instalación%" THEN 1 ELSE 0 END)*133.71 AS Altas'),
+                        activities.`Subtipo de Actividad` LIKE "%igraci%" OR
+                        activities.`Subtipo de Actividad` LIKE "%nstalaci%" THEN 1 ELSE 0 END)*133.71 AS Altas'),
                 DB::raw('SUM(CASE WHEN activities.`Subtipo de Actividad` LIKE "%Reparación%" THEN 1 ELSE 0 END)*66.18 AS Averias'),
                 DB::raw('SUM(
                     CASE WHEN 
-                        activities.`Subtipo de Actividad` LIKE "%Migración%" OR
-                        activities.`Subtipo de Actividad` LIKE "%Instalación%" THEN 1 ELSE 0 END)*133.71 + 
+                        activities.`Subtipo de Actividad` LIKE "%igraci%" OR
+                        activities.`Subtipo de Actividad` LIKE "%nstalaci%" THEN 1 ELSE 0 END)*133.71 + 
                     SUM(CASE WHEN activities.`Subtipo de Actividad` LIKE "%Reparación%" THEN 1 ELSE 0 END)*66.18 AS Total')
             )
             ->groupBy(['zones.Zonal'])
@@ -423,16 +423,16 @@ class ControlPanelController extends Controller
             ->whereIn('activities.Estado actividad', ['Completado'])
             ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('activities.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
                 'zones.Zonal as Ciudad',
                 DB::raw('SUM(
                     CASE WHEN 
-                        activities.`Subtipo de Actividad` LIKE "%Migración%" OR
-                        activities.`Subtipo de Actividad` LIKE "%Instalación%" THEN 1 ELSE 0 END)*133.71 AS Altas'),
+                        activities.`Subtipo de Actividad` LIKE "%igraci%" OR
+                        activities.`Subtipo de Actividad` LIKE "%nstalaci%" THEN 1 ELSE 0 END)*133.71 AS Altas'),
             )
             ->groupBy(['zones.Zonal'])
             ->orderBy('zones.Zonal', 'asc')
@@ -472,7 +472,7 @@ class ControlPanelController extends Controller
             ->whereIn('activities.Estado actividad', ['Completado'])
             ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('activities.Subtipo de Actividad','LIKE', '%Reparación%');
+                $query->where('activities.Subtipo de Actividad','LIKE', '%eparaci%');
             })
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(

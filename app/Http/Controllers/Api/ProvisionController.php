@@ -107,8 +107,8 @@ class ProvisionController extends Controller
             ->where('zones.Zonal', $citie_name)
             ->where('generals.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('generals.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('generals.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('generals.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('generals.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             ->where(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), $startDateInstalations)
             ->select(
@@ -124,8 +124,8 @@ class ProvisionController extends Controller
             ->whereIn('zones.Gestor Altas', $managers->pluck('Gestor Altas')->toArray())
             ->where('generals.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('generals.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('generals.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('generals.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('generals.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             ->where(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), $startDateInstalations)
             ->select('generals.Código de Cliente')
@@ -135,7 +135,7 @@ class ProvisionController extends Controller
             ->whereIn('generals.Estado actividad', ['Completado'])
             ->where('zones.Zonal', $citie_name)
             ->whereIn('generals.Código de Cliente', $instalacionsclients->pluck('Código de Cliente')->toArray())
-            ->where('generals.Subtipo de Actividad','LIKE', '%Reparación%')
+            ->where('generals.Subtipo de Actividad','LIKE', '%eparaci%')
             ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDateReparations, $endDateReparations])
             ->select(
                 'zones.Gestor Altas',
@@ -196,8 +196,8 @@ class ProvisionController extends Controller
             ->where('generals.Técnico','NOT LIKE', '%BK%')
             ->where('generals.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('generals.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('generals.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('generals.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('generals.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             ->where(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), $startDateInstalations)
             ->select(
@@ -214,8 +214,8 @@ class ProvisionController extends Controller
             ->where('generals.Técnico','NOT LIKE', '%BK%')
             ->where('generals.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('generals.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('generals.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('generals.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('generals.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             ->where(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), $startDateInstalations)
             ->select('generals.Código de Cliente')
@@ -226,7 +226,7 @@ class ProvisionController extends Controller
             ->where('zones.Zonal', $citie_name)
             ->whereIn('generals.Código de Cliente', $instalacionsclients->pluck('Código de Cliente')->toArray())
             ->where('generals.Técnico','NOT LIKE', '%BK%')
-            ->where('generals.Subtipo de Actividad','LIKE', '%Reparación%')
+            ->where('generals.Subtipo de Actividad','LIKE', '%eparaci%')
             ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDateReparations, $endDateReparations])
             ->select(
                 'generals.Técnico',
@@ -286,8 +286,8 @@ class ProvisionController extends Controller
             ->whereIn('generals.Estado actividad', ['Completado'])
             ->where('generals.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('generals.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('generals.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('generals.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('generals.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             ->where(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), $startDateInstalations)
             ->select('zones.Gestor Altas','zones.Zonal as city_name','generals.Fecha de Cita')
@@ -297,8 +297,8 @@ class ProvisionController extends Controller
             ->whereIn('generals.Estado actividad', ['Completado'])
             ->where('generals.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('generals.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('generals.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('generals.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('generals.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             ->where(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), $startDateInstalations)
             ->select('generals.Código de Cliente')
@@ -307,7 +307,7 @@ class ProvisionController extends Controller
             $reparationsclients = Zone::join('generals','generals.Nodo_zona','=', 'zones.Nodo')
             ->whereIn('generals.Estado actividad', ['Completado'])
             ->whereIn('generals.Código de Cliente', $instalacionsclients->pluck('Código de Cliente')->toArray())
-            ->where('generals.Subtipo de Actividad','LIKE', '%Reparación%')
+            ->where('generals.Subtipo de Actividad','LIKE', '%eparaci%')
             ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDateReparations, $endDateReparations])
             ->select('generals.Código de Cliente')
             ->count();
