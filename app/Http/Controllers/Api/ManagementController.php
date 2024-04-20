@@ -18,8 +18,8 @@ class ManagementController extends Controller
             ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente','Suspendido'])
             ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('activities.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
@@ -57,7 +57,7 @@ class ManagementController extends Controller
             $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
             ->where('zones.Zonal', $citie_name)
             ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente','Suspendido'])
-            ->where('activities.Subtipo de Actividad','LIKE', '%Reparación%')
+            ->where('activities.Subtipo de Actividad','LIKE', '%eparaci%')
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
                 'zones.Gestor Averias',
@@ -97,8 +97,8 @@ class ManagementController extends Controller
             ->whereIn('activities.Estado actividad', ['Completado'])
             ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
-                $query->where('activities.Subtipo de Actividad','LIKE', '%Migración%')
-                ->orWhere('activities.Subtipo de Actividad','LIKE', '%Instalación%');
+                $query->where('activities.Subtipo de Actividad','LIKE', '%igraci%')
+                ->orWhere('activities.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
@@ -138,7 +138,7 @@ class ManagementController extends Controller
             ->where('zones.Gestor Averias', $manager_averia)
             ->where('activities.Tipo de Cita','LIKE', '%Cliente%')
             ->whereIn('activities.Estado actividad', ['Pendiente'])
-            ->where('activities.Subtipo de Actividad','LIKE', '%Reparación%')
+            ->where('activities.Subtipo de Actividad','LIKE', '%eparaci%')
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
                 'activities.Número de Petición as Orden',
