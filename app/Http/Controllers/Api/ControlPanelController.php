@@ -444,7 +444,7 @@ class ControlPanelController extends Controller
 
             foreach ($zones as $manager) {
                 $categories[] = $manager->Ciudad ;
-                $series[] = $manager->Altas;
+                $series[] = (float)$manager->Altas;
                 $totales += $manager->Altas;
             }
 
@@ -489,7 +489,7 @@ class ControlPanelController extends Controller
 
             foreach ($zones as $manager) {
                 $categories[] = $manager->Ciudad ;
-                $series[] = $manager->Averias;
+                $series[] = (float)$manager->Averias;
                 $totales += $manager->Averias;
             }
 
