@@ -444,7 +444,7 @@ class ControlPanelController extends Controller
 
             foreach ($zones as $manager) {
                 $categories[] = $manager->Ciudad ;
-                $series[] = 'S/ '.number_format($manager->Altas, 2, '.', ',');
+                $series[] = $manager->Altas;
                 $totales += $manager->Altas;
             }
 
@@ -489,7 +489,7 @@ class ControlPanelController extends Controller
 
             foreach ($zones as $manager) {
                 $categories[] = $manager->Ciudad ;
-                $series[] = 'S/ '.number_format($manager->Averias, 2, '.', ',');
+                $series[] = $manager->Averias;
                 $totales += $manager->Averias;
             }
 
