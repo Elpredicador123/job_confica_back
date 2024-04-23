@@ -31,7 +31,8 @@ class QualityController extends Controller
 
             $categories = ['Contrata', 'Inspecciones Totales', 'Inspecciones ausentes', 'Participacion %'];
             
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Audit::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de inspecciones efectivas general',
@@ -69,7 +70,8 @@ class QualityController extends Controller
 
             $categories = ['Nombre de Tecnico','CF','Contrata', 'Inspecciones Totales', 'Inspecciones ausentes', 'Participacion %'];
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Audit::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de inspecciones efectivas por tec',
@@ -124,7 +126,8 @@ class QualityController extends Controller
 
             $categories = ["Contrata","Fotocheck","Uniforme","PON Power Meter","Jumper Preconectorizado","Cortadora de fibra","Peladora de Drop","Peladora de Acrilato","One Click","Alcohol Isopropilico","Paños Para Limpiar","Total"];
             
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Audit::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de auditorias general',
@@ -181,7 +184,8 @@ class QualityController extends Controller
 
             $categories = ['Nombre de Tecnico','CF','Contrata',"Fotocheck","Uniforme","PON Power Meter","Jumper Preconectorizado","Cortadora de fibra","Peladora de Drop","Peladora de Acrilato","One Click","Alcohol Isopropilico","Paños Para Limpiar","Total"];
             
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Audit::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de auditorias por tec',
@@ -241,7 +245,8 @@ class QualityController extends Controller
 
             $categories = ['Contrata','FALLAS TRIPLEXOR','FALLAS ROSETA OPTICA','FALLAS HGU-CABLE MODEM','FALLAS SPLITER','FALLAS VOIP','Total'];
             
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Evidence::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Evidencia de errores general',
@@ -303,7 +308,8 @@ class QualityController extends Controller
 
             $categories = ['Nombre de Tecnico','CF','Contrata','FALLAS TRIPLEXOR','FALLAS ROSETA OPTICA','FALLAS HGU-CABLE MODEM','FALLAS SPLITER','FALLAS VOIP','Total'];
             
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Evidence::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Evidencia de errores por tecnico',
@@ -340,7 +346,8 @@ class QualityController extends Controller
                 $series[] = $audit->Totales;
             }
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Audit::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Ratio de inspecciones',
@@ -392,7 +399,8 @@ class QualityController extends Controller
                 $series[] = $audit->Totales;
             }
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Evidence::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Ratio de fotos de TOA',

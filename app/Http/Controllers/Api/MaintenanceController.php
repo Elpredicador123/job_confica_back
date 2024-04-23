@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Zone;
+use App\Models\Activity;
+use App\Models\General;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -39,7 +41,8 @@ class MaintenanceController extends Controller
                 $series[] = $manager->porcentaje;
             }
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Distribucion inefectivas por contrata',
@@ -83,7 +86,8 @@ class MaintenanceController extends Controller
                 $series[] = $manager->total;
             }
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Distribucion inefectivas',
@@ -160,7 +164,8 @@ class MaintenanceController extends Controller
 
             $fields = ['Gestor Altas', 'Altas Totales', 'Altas con infancia', 'Infancia %'];
             
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = General::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Averias reiteradas con infancia por gestor',
@@ -244,7 +249,8 @@ class MaintenanceController extends Controller
 
             $fields = ['Técnico','CF', 'Altas Totales', 'Altas con infancia', 'Infancia %'];
             
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = General::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Averias reiteradas con infancia por tecnico',
@@ -298,7 +304,8 @@ class MaintenanceController extends Controller
             $categories = ['Infancia %',''];
             $series = [$porcentaje, $resto];
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = General::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avence de averias reiteradas con infancia',

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Zone;
+use App\Models\Activity;
+use App\Models\Future;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -42,7 +44,8 @@ class ControlPanelController extends Controller
             }
             $categories = collect($zones)->groupBy(['Zonal'])->keys();
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de instalaciones',
@@ -82,7 +85,8 @@ class ControlPanelController extends Controller
             
             $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Listado Avance de instalaciones',
@@ -126,7 +130,8 @@ class ControlPanelController extends Controller
             }
             $categories = collect($zones)->groupBy(['Zonal'])->keys();
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de mantenimientos',
@@ -163,7 +168,8 @@ class ControlPanelController extends Controller
 
             $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Listado Avance de mantenimientos',
@@ -246,7 +252,8 @@ class ControlPanelController extends Controller
             $series = [];
             $series = array_merge($instalaciones->toArray(), $migraciones->toArray());
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Future::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Agenda Diaria',
@@ -290,7 +297,8 @@ class ControlPanelController extends Controller
                 $series[] = $manager->Totales;
             }
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Ratio de instalaciones',
@@ -332,7 +340,8 @@ class ControlPanelController extends Controller
                 $series[] = $manager->Totales;
             }
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Ratio de mantenimientos',
@@ -398,7 +407,8 @@ class ControlPanelController extends Controller
                 $manager->Total = 'S/ '.number_format($manager->Total, 2, '.', ',');
             }
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Lista de produccion del dia',
@@ -448,7 +458,8 @@ class ControlPanelController extends Controller
                 $totales += $manager->Altas;
             }
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Lista de produccion del dia de instalaciones',
@@ -493,7 +504,8 @@ class ControlPanelController extends Controller
                 $totales += $manager->Averias;
             }
 
-            $date = Carbon::now()->format('d/m/Y H:i:s');
+            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Lista de produccion del dia de reparaciones',
