@@ -22,14 +22,14 @@ class QualityController extends Controller
                 'technicals.Contrata',
                 DB::raw('COUNT(*) AS `Inspecciones Totales`'),
                 DB::raw('SUM(CASE WHEN audits.`Se Realizo Inspeccion a Tecnico` = "NO" THEN 1 ELSE 0 END) AS `Inspecciones ausentes`'),
-                DB::raw('ROUND(CASE WHEN COUNT(*) = 0 THEN 0 ELSE (SUM(CASE WHEN audits.`Se Realizo Inspeccion a Tecnico` = "NO" THEN 1 ELSE 0 END) / COUNT(*) * 100) END,2) AS `% Participacion`')
+                DB::raw('ROUND(CASE WHEN COUNT(*) = 0 THEN 0 ELSE (SUM(CASE WHEN audits.`Se Realizo Inspeccion a Tecnico` = "NO" THEN 1 ELSE 0 END) / COUNT(*) * 100) END,2) AS `Participacion %`')
             )
             ->groupBy(['technicals.Contrata'])
             ->orderBy('Inspecciones ausentes', 'desc')
             ->take(10)
             ->get();
 
-            $categories = ['Contrata', 'Inspecciones Totales', 'Inspecciones ausentes', '% Participacion'];
+            $categories = ['Contrata', 'Inspecciones Totales', 'Inspecciones ausentes', 'Participacion %'];
             
             $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
@@ -60,14 +60,14 @@ class QualityController extends Controller
                 'technicals.Contrata',
                 DB::raw('COUNT(*) AS `Inspecciones Totales`'),
                 DB::raw('ROUND(SUM(CASE WHEN audits.`Se Realizo Inspeccion a Tecnico` = "NO" THEN 1 ELSE 0 END),2) AS `Inspecciones ausentes`'),
-                DB::raw('ROUND(CASE WHEN COUNT(*) = 0 THEN 0 ELSE (SUM(CASE WHEN audits.`Se Realizo Inspeccion a Tecnico` = "NO" THEN 1 ELSE 0 END) / COUNT(*) * 100) END,2) AS `% Participacion`')
+                DB::raw('ROUND(CASE WHEN COUNT(*) = 0 THEN 0 ELSE (SUM(CASE WHEN audits.`Se Realizo Inspeccion a Tecnico` = "NO" THEN 1 ELSE 0 END) / COUNT(*) * 100) END,2) AS `Participacion %`')
             )
             ->groupBy(['technicals.Nombre_Completo','audits.Carnet de Tecnico','technicals.Contrata'])
             ->orderBy('Inspecciones ausentes', 'desc')
             ->take(10)
             ->get();
 
-            $categories = ['Nombre de Tecnico','CF','Contrata', 'Inspecciones Totales', 'Inspecciones ausentes', '% Participacion'];
+            $categories = ['Nombre de Tecnico','CF','Contrata', 'Inspecciones Totales', 'Inspecciones ausentes', 'Participacion %'];
 
             $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([

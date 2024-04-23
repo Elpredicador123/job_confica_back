@@ -154,11 +154,11 @@ class MaintenanceController extends Controller
                     'Gestor Altas' => $item['Gestor Altas'],
                     'Altas Totales' => $total,
                     'Altas con infancia' => $ocurrencias,
-                    '% infancia' => $porcentaje,
+                    'Infancia %' => $porcentaje,
                 ];
             });
 
-            $fields = ['Gestor Altas', 'Altas Totales', 'Altas con infancia', '% infancia'];
+            $fields = ['Gestor Altas', 'Altas Totales', 'Altas con infancia', 'Infancia %'];
             
             $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
@@ -238,11 +238,11 @@ class MaintenanceController extends Controller
                     'CF' => explode("-",  $item->Técnico)[0],
                     'Altas Totales' => $total,
                     'Altas con infancia' => $ocurrencias,
-                    '% infancia' => $porcentaje,
+                    'Infancia %' => $porcentaje,
                 ];
             });
 
-            $fields = ['Técnico','CF', 'Altas Totales', 'Altas con infancia', '% infancia'];
+            $fields = ['Técnico','CF', 'Altas Totales', 'Altas con infancia', 'Infancia %'];
             
             $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
@@ -295,7 +295,7 @@ class MaintenanceController extends Controller
 
             $porcentaje = round(($managers > 0 ? $reparationsclients / $managers * 100: 0),2);
             $resto = 100 - $porcentaje;
-            $categories = ['% infancia',''];
+            $categories = ['Infancia %',''];
             $series = [$porcentaje, $resto];
 
             $date = Carbon::now()->format('d/m/Y H:i:s');
@@ -304,7 +304,7 @@ class MaintenanceController extends Controller
                 'message' => 'Avence de averias reiteradas con infancia',
                 'Altas Totales' => $managers,
                 'Altas con infancia' => $reparationsclients,
-                '% infancia' => $porcentaje,
+                'Infancia %' => $porcentaje,
                 'categories' => $categories,
                 'series' => $series,
                 'date' => $date,

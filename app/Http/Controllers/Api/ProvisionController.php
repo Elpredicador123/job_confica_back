@@ -157,11 +157,11 @@ class ProvisionController extends Controller
                     'Gestor Altas' => $item['Gestor Altas'],
                     'Altas Totales' => $total,
                     'Altas con infancia' => $ocurrencias,
-                    '% infancia' => $porcentaje,
+                    'Infancia %' => $porcentaje,
                 ];
             });
             
-            $fields = ['Gestor Altas', 'Altas Totales', 'Altas con infancia', '% infancia'];
+            $fields = ['Gestor Altas', 'Altas Totales', 'Altas con infancia', 'Infancia %'];
             
             $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
@@ -249,11 +249,11 @@ class ProvisionController extends Controller
                     'CF' => explode("-",  $item->Técnico)[0],
                     'Altas Totales' => $total,
                     'Altas con infancia' => $ocurrencias,
-                    '% infancia' => $porcentaje,
+                    'Infancia %' => $porcentaje,
                 ];
             });
 
-            $fields = ['Técnico','CF', 'Altas Totales', 'Altas con infancia', '% infancia'];
+            $fields = ['Técnico','CF', 'Altas Totales', 'Altas con infancia', 'Infancia %'];
             
             $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
@@ -320,7 +320,7 @@ class ProvisionController extends Controller
                 'message' => 'Avence de averias con infancia',
                 'Altas Totales' => $managers,
                 'Altas con infancia' => $reparationsclients,
-                '% infancia' => $porcentaje,
+                'Infancia %' => $porcentaje,
                 'date' => $date,
 
             ], 200);
