@@ -200,7 +200,7 @@ class ControlPanelController extends Controller
             $day6 = Carbon::now()->addDays(6)->format('d/m/y');
             $day7 = Carbon::now()->addDays(7)->format('d/m/y');
             
-            $instalaciones = Zone::join('futures','futures.Nodo_zona','=', 'zones.Nodo')
+            $instalaciones = Future::query()
             ->where('futures.Tipo de Cita','LIKE', '%Cliente%')
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
@@ -224,7 +224,7 @@ class ControlPanelController extends Controller
             ->orderByRaw('futures.`Time Slot` asc')
             ->get();
 
-            $migraciones = Zone::join('futures','futures.Nodo_zona','=', 'zones.Nodo')
+            $migraciones = Future::query()
             ->where('futures.Tipo de Cita','LIKE', '%Cliente%')
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
