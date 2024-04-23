@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Zone;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ManagementController extends Controller
 {
@@ -36,11 +37,13 @@ class ManagementController extends Controller
 
             $fields = ['Gestor Altas','Rutas','Completado','Iniciado','Pendiente','Suspendido'];
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Listado Avance de instalaciones',
                 'fields' => $fields,
                 'series' => $zones,
+                'date' => $date
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -73,11 +76,13 @@ class ManagementController extends Controller
 
             $fields = ['Gestor Averias','Rutas','Completado','Iniciado','Pendiente','Suspendido'];
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Listado Avance de mantenimientos',
                 'fields' => $fields,
                 'series' => $zones,
+                'date' => $date
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -115,11 +120,13 @@ class ManagementController extends Controller
 
             $categories = ['Nodo_zona','09-13','13-18','Total'];
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Agendas por gestor', 
                 'categories' => $categories,    
                 'series' => $zones,
+                'date' => $date
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -152,11 +159,13 @@ class ManagementController extends Controller
 
             $categories = ['Orden','Nodo','Gestor Averias','Contrata','Tiempo sin atención'];
 
+            $date = Carbon::now()->format('d/m/Y H:i:s');
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de ordenes por gestor horas pendientes',
                 'categories' => $categories,      
-                'series' => $zones,    
+                'series' => $zones,  
+                'date' => $date  
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
