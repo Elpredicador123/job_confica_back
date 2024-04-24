@@ -43,9 +43,14 @@ class ControlPanelController extends Controller
                 $series[] = $data;
             }
             $categories = collect($zones)->groupBy(['Zonal'])->keys();
-
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            //si hay registros en la base de datos pintar la fecha sino solo decir no hay datos
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de instalaciones',
@@ -85,8 +90,13 @@ class ControlPanelController extends Controller
             
             $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
 
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Listado Avance de instalaciones',
@@ -130,8 +140,13 @@ class ControlPanelController extends Controller
             }
             $categories = collect($zones)->groupBy(['Zonal'])->keys();
 
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de mantenimientos',
@@ -168,8 +183,13 @@ class ControlPanelController extends Controller
 
             $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
 
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Listado Avance de mantenimientos',
@@ -252,8 +272,13 @@ class ControlPanelController extends Controller
             $series = [];
             $series = array_merge($instalaciones->toArray(), $migraciones->toArray());
 
-            $date = Future::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Future::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Future::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Agenda Diaria',
@@ -297,8 +322,13 @@ class ControlPanelController extends Controller
                 $series[] = $manager->Totales;
             }
 
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Ratio de instalaciones',
@@ -340,8 +370,13 @@ class ControlPanelController extends Controller
                 $series[] = $manager->Totales;
             }
 
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Ratio de mantenimientos',
@@ -407,8 +442,13 @@ class ControlPanelController extends Controller
                 $manager->Total = 'S/ '.number_format($manager->Total, 2, '.', ',');
             }
 
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Lista de produccion del dia',
@@ -458,8 +498,13 @@ class ControlPanelController extends Controller
                 $totales += $manager->Altas;
             }
 
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Lista de produccion del dia de instalaciones',
@@ -504,8 +549,13 @@ class ControlPanelController extends Controller
                 $totales += $manager->Averias;
             }
 
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Lista de produccion del dia de reparaciones',

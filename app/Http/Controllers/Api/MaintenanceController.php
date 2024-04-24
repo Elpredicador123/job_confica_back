@@ -41,8 +41,13 @@ class MaintenanceController extends Controller
                 $series[] = $manager->porcentaje;
             }
 
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Distribucion inefectivas por contrata',
@@ -86,8 +91,13 @@ class MaintenanceController extends Controller
                 $series[] = $manager->total;
             }
 
-            $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (Activity::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = Activity::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Distribucion inefectivas',
@@ -164,8 +174,13 @@ class MaintenanceController extends Controller
 
             $fields = ['Gestor Altas', 'Altas Totales', 'Altas con infancia', 'Infancia %'];
             
-            $date = General::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (General::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = General::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Averias reiteradas con infancia por gestor',
@@ -249,8 +264,13 @@ class MaintenanceController extends Controller
 
             $fields = ['Técnico','CF', 'Altas Totales', 'Altas con infancia', 'Infancia %'];
             
-            $date = General::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (General::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = General::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Averias reiteradas con infancia por tecnico',
@@ -304,8 +324,13 @@ class MaintenanceController extends Controller
             $categories = ['Infancia %',''];
             $series = [$porcentaje, $resto];
 
-            $date = General::orderBy('created_at', 'desc')->first()->created_at;
-            $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            $date = '';
+            if (General::count() == 0) {
+                $date = 'No hay datos';
+            } else {
+                $date = General::orderBy('created_at', 'desc')->first()->created_at;
+                $date = Carbon::parse($date)->format('d/m/Y H:i:s');
+            }
             return response()->json([
                 "status" => "success",
                 'message' => 'Avence de averias reiteradas con infancia',
