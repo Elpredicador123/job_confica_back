@@ -22,8 +22,8 @@ class AuditImport implements ToCollection, WithBatchInserts, WithChunkReading, S
     */
     public function collection(Collection $rows)
     {
-        ini_set('memory_limit', '-1');
-        set_time_limit(0);
+        // ini_set('memory_limit', '-1');
+        // set_time_limit(0);
         $currentRowNumber = $this->getRowNumber();
         foreach ($rows as $key => $row)
         {

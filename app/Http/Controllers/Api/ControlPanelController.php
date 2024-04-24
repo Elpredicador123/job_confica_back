@@ -282,6 +282,7 @@ class ControlPanelController extends Controller
             return response()->json([
                 "status" => "success",
                 'message' => 'Agenda Diaria',
+                'Altas' => $Altas,
                 'fields' => $fields,
                 'series' => $series,
                 'date' => $date,
