@@ -25,27 +25,32 @@ class ControlPanelController extends Controller
             })
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
-                'activities.Estado actividad',
                 'zones.Zonal',
-                DB::raw('COUNT(*) as Total')
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Completado" THEN 1 ELSE 0 END) AS Completado'),
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Iniciado" THEN 1 ELSE 0 END) AS Iniciado'),
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Pendiente" THEN 1 ELSE 0 END) AS Pendiente')
             )
-            ->groupBy(['activities.Estado actividad','zones.Zonal'])
+            ->groupBy(['zones.Zonal'])
             ->orderBy('zones.Zonal', 'asc')
-            ->orderBy('Estado actividad', 'asc')
             ->get();
 
-            $series = [];
-            $groupedData = collect($zones)->groupBy(['Estado actividad']);
-            foreach ($groupedData as $key => $value) {
-                $data = [];
-                $data['name'] = $key;
-                $data['data'] = $value->pluck('Total')??0;
-                $series[] = $data;
-            }
-            $categories = collect($zones)->groupBy(['Zonal'])
-            ->sortBy('Zonal')
-            ->keys();
-            //si hay registros en la base de datos pintar la fecha sino solo decir no hay datos
+            $categories = $zones->pluck('Zonal');
+            $series = [
+                [
+                    'name' => 'Completado',
+                    'data' => $zones->pluck('Completado'),
+                ],
+                [
+                    'name' => 'Iniciado',
+                    'data' => $zones->pluck('Iniciado'),
+                ],
+                [
+                    'name' => 'Pendiente',
+                    'data' => $zones->pluck('Pendiente'),
+                ],
+            ];
+
+
             $date = '';
             if (Activity::count() == 0) {
                 $date = 'No hay datos';
@@ -56,7 +61,6 @@ class ControlPanelController extends Controller
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de instalaciones',
-                'zones' => $zones,
                 'categories' => $categories,
                 'series' => $series,
                 'date' => $date,
@@ -124,26 +128,30 @@ class ControlPanelController extends Controller
             ->where('activities.Subtipo de Actividad','LIKE', '%eparaci%')
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
-                'activities.Estado actividad',
                 'zones.Zonal',
-                DB::raw('COUNT(*) as Total')
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Completado" THEN 1 ELSE 0 END) AS Completado'),
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Iniciado" THEN 1 ELSE 0 END) AS Iniciado'),
+                DB::raw('SUM(CASE WHEN activities.`Estado actividad` = "Pendiente" THEN 1 ELSE 0 END) AS Pendiente')
             )
-            ->groupBy(['activities.Estado actividad','zones.Zonal'])
+            ->groupBy(['zones.Zonal'])
             ->orderBy('zones.Zonal', 'asc')
-            ->orderBy('Estado actividad', 'asc')
             ->get();
 
-            $series = [];
-            $groupedData = collect($zones)->groupBy(['Estado actividad']);
-            foreach ($groupedData as $key => $value) {
-                $data = [];
-                $data['name'] = $key;
-                $data['data'] = $value->pluck('Total')??0;
-                $series[] = $data;
-            }
-            $categories = collect($zones)->groupBy(['Zonal'])
-            ->sortBy('Zonal')
-            ->keys();
+            $categories = $zones->pluck('Zonal');
+            $series = [
+                [
+                    'name' => 'Completado',
+                    'data' => $zones->pluck('Completado'),
+                ],
+                [
+                    'name' => 'Iniciado',
+                    'data' => $zones->pluck('Iniciado'),
+                ],
+                [
+                    'name' => 'Pendiente',
+                    'data' => $zones->pluck('Pendiente'),
+                ],
+            ];
 
             $date = '';
             if (Activity::count() == 0) {
