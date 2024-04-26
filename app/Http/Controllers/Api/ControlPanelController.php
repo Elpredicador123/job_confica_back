@@ -39,7 +39,7 @@ class ControlPanelController extends Controller
             foreach ($groupedData as $key => $value) {
                 $data = [];
                 $data['name'] = $key;
-                $data['data'] = $value->pluck('Total');
+                $data['data'] = $value->pluck('Total')??0;
                 $series[] = $data;
             }
             $categories = collect($zones)->groupBy(['Zonal'])
@@ -56,6 +56,7 @@ class ControlPanelController extends Controller
             return response()->json([
                 "status" => "success",
                 'message' => 'Avance de instalaciones',
+                'zones' => $zones,
                 'categories' => $categories,
                 'series' => $series,
                 'date' => $date,
@@ -137,7 +138,7 @@ class ControlPanelController extends Controller
             foreach ($groupedData as $key => $value) {
                 $data = [];
                 $data['name'] = $key;
-                $data['data'] = $value->pluck('Total');
+                $data['data'] = $value->pluck('Total')??0;
                 $series[] = $data;
             }
             $categories = collect($zones)->groupBy(['Zonal'])
