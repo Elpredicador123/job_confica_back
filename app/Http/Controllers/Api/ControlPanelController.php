@@ -34,6 +34,17 @@ class ControlPanelController extends Controller
             ->orderBy('zones.Zonal', 'asc')
             ->get();
 
+            $customOrder = [
+                "Lima",
+                "Cuzco",
+                "Arequipa",
+                "Puno"
+            ];
+
+            $zones = $zones->sortBy(function ($zone) use ($customOrder) {
+                return array_search($zone->Zonal, $customOrder);
+            });
+
             $categories = $zones->pluck('Zonal');
             $series = [
                 [
@@ -93,10 +104,26 @@ class ControlPanelController extends Controller
             )
             ->groupBy(['zones.Zonal'])
             ->orderBy('Ciudad', 'asc')
-            ->get();
+            ->get()
+            ->toArray();
             
             $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
 
+            $customOrder = [
+                "Lima",
+                "Cuzco",
+                "Arequipa",
+                "Puno"
+            ];
+
+            $customSort = function ($a, $b) use ($customOrder) {
+                $posA = array_search($a["Ciudad"], $customOrder);
+                $posB = array_search($b["Ciudad"], $customOrder);
+                return $posA - $posB;
+            };
+
+            usort($zones, $customSort);
+            
             $date = '';
             if (Activity::count() == 0) {
                 $date = 'No hay datos';
@@ -136,6 +163,17 @@ class ControlPanelController extends Controller
             ->groupBy(['zones.Zonal'])
             ->orderBy('zones.Zonal', 'asc')
             ->get();
+
+            $customOrder = [
+                "Lima",
+                "Cuzco",
+                "Arequipa",
+                "Puno"
+            ];
+
+            $zones = $zones->sortBy(function ($zone) use ($customOrder) {
+                return array_search($zone->Zonal, $customOrder);
+            });
 
             $categories = $zones->pluck('Zonal');
             $series = [
@@ -192,7 +230,25 @@ class ControlPanelController extends Controller
             )
             ->groupBy(['zones.Zonal'])
             ->orderBy('Ciudad', 'asc')
-            ->get();
+            ->get()
+            ->toArray();
+            
+            $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
+
+            $customOrder = [
+                "Lima",
+                "Cuzco",
+                "Arequipa",
+                "Puno"
+            ];
+
+            $customSort = function ($a, $b) use ($customOrder) {
+                $posA = array_search($a["Ciudad"], $customOrder);
+                $posB = array_search($b["Ciudad"], $customOrder);
+                return $posA - $posB;
+            };
+
+            usort($zones, $customSort);
 
             $fields = ['Ciudad', 'Completado', 'Iniciado', 'Pendiente'];
 
