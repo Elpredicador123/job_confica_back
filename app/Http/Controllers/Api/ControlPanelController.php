@@ -555,16 +555,32 @@ class ControlPanelController extends Controller
             )
             ->groupBy(['zones.Zonal'])
             ->orderBy('zones.Zonal', 'asc')
-            ->get();
+            ->get()
+            ->toArray();
+
+            $customOrder = [
+                "Lima",
+                "Cuzco",
+                "Arequipa",
+                "Puno"
+            ];
+
+            $customSort = function ($a, $b) use ($customOrder) {
+                $posA = array_search($a["Ciudad"], $customOrder);
+                $posB = array_search($b["Ciudad"], $customOrder);
+                return $posA - $posB;
+            };
+
+            usort($zones, $customSort);
 
             $categories = [];
             $series = [];
             $totales = 0;
 
             foreach ($zones as $manager) {
-                $categories[] = $manager->Ciudad ;
-                $series[] = (float)$manager->Altas;
-                $totales += $manager->Altas;
+                $categories[] = $manager['Ciudad'];
+                $series[] = (float)$manager['Altas'];
+                $totales += $manager['Altas'];
             }
 
             $date = '';
@@ -606,16 +622,32 @@ class ControlPanelController extends Controller
             )
             ->groupBy(['zones.Zonal'])
             ->orderBy('zones.Zonal', 'asc')
-            ->get();
+            ->get()
+            ->toArray();
+
+            $customOrder = [
+                "Lima",
+                "Cuzco",
+                "Arequipa",
+                "Puno"
+            ];
+
+            $customSort = function ($a, $b) use ($customOrder) {
+                $posA = array_search($a["Ciudad"], $customOrder);
+                $posB = array_search($b["Ciudad"], $customOrder);
+                return $posA - $posB;
+            };
+
+            usort($zones, $customSort);
 
             $categories = [];
             $series = [];
             $totales = 0;
 
             foreach ($zones as $manager) {
-                $categories[] = $manager->Ciudad ;
-                $series[] = (float)$manager->Averias;
-                $totales += $manager->Averias;
+                $categories[] = $manager['Ciudad'];
+                $series[] = (float)$manager['Averias'];
+                $totales += $manager['Averias'];
             }
 
             $date = '';
