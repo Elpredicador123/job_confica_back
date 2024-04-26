@@ -290,7 +290,7 @@ class ControlPanelController extends Controller
             $day7 = Carbon::now()->addDays(7)->format('d/m/y');
             
             $instalaciones = Future::query()
-            ->where('futures.Tipo de Cita','LIKE', '%Cliente%')
+            ->whereIn('futures.Tipo de Cita',['Cliente'])
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
                 $query->where('futures.Subtipo de Actividad','LIKE', '%nstalaci%')
@@ -314,11 +314,11 @@ class ControlPanelController extends Controller
             ->get();
 
             $migraciones = Future::query()
-            ->where('futures.Tipo de Cita','LIKE', '%Cliente%')
+            ->whereIn('futures.Tipo de Cita',['Cliente'])
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
                 $query->where('futures.Subtipo de Actividad','LIKE', '%igraci%')
-                ->where('futures.Subtipo de Actividad','NOT LIKE', '%nstalaci%');
+                ->where('futures.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
             ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDate, $endDate])
             ->select(
