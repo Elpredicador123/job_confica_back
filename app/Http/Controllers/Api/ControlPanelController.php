@@ -30,8 +30,8 @@ class ControlPanelController extends Controller
                 DB::raw('COUNT(*) as Total')
             )
             ->groupBy(['activities.Estado actividad','zones.Zonal'])
-            ->orderBy('Estado actividad', 'asc')
             ->orderBy('zones.Zonal', 'asc')
+            ->orderBy('Estado actividad', 'asc')
             ->get();
 
             $series = [];
@@ -42,7 +42,9 @@ class ControlPanelController extends Controller
                 $data['data'] = $value->pluck('Total');
                 $series[] = $data;
             }
-            $categories = collect($zones)->groupBy(['Zonal'])->keys();
+            $categories = collect($zones)->groupBy(['Zonal'])
+            ->sortBy('Zonal')
+            ->keys();
             //si hay registros en la base de datos pintar la fecha sino solo decir no hay datos
             $date = '';
             if (Activity::count() == 0) {
@@ -126,8 +128,8 @@ class ControlPanelController extends Controller
                 DB::raw('COUNT(*) as Total')
             )
             ->groupBy(['activities.Estado actividad','zones.Zonal'])
-            ->orderBy('Estado actividad', 'asc')
             ->orderBy('zones.Zonal', 'asc')
+            ->orderBy('Estado actividad', 'asc')
             ->get();
 
             $series = [];
@@ -138,7 +140,9 @@ class ControlPanelController extends Controller
                 $data['data'] = $value->pluck('Total');
                 $series[] = $data;
             }
-            $categories = collect($zones)->groupBy(['Zonal'])->keys();
+            $categories = collect($zones)->groupBy(['Zonal'])
+            ->sortBy('Zonal')
+            ->keys();
 
             $date = '';
             if (Activity::count() == 0) {
