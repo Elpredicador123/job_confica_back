@@ -313,6 +313,19 @@ class ControlPanelController extends Controller
             ->orderByRaw('futures.`Time Slot` asc')
             ->get();
 
+            $totalAltas = new \stdClass();
+            $totalAltas->Tipo = 'Total Altas';
+            $totalAltas->Hora = '';
+            $totalAltas->day1 = $instalaciones->sum($day1);
+            $totalAltas->day2 = $instalaciones->sum($day2);
+            $totalAltas->day3 = $instalaciones->sum($day3);
+            $totalAltas->day4 = $instalaciones->sum($day4);
+            $totalAltas->day5 = $instalaciones->sum($day5);
+            $totalAltas->day6 = $instalaciones->sum($day6);
+            $totalAltas->day7 = $instalaciones->sum($day7);
+            $totalAltas->Total = $instalaciones->sum('Total');
+            $instalaciones->push($totalAltas);
+
             $migraciones = Future::query()
             ->whereIn('futures.Tipo de Cita',['Cliente'])
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
@@ -322,7 +335,7 @@ class ControlPanelController extends Controller
             })
             ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDate, $endDate])
             ->select(
-                DB::raw("'Migracion' as Tipo"),
+                DB::raw("'Migraciones' as Tipo"),
                 'futures.Time Slot as Hora',
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 1 DAY) THEN 1 ELSE 0 END) AS `$day1`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 2 DAY) THEN 1 ELSE 0 END) AS `$day2`"),
@@ -337,8 +350,35 @@ class ControlPanelController extends Controller
             ->orderByRaw('futures.`Time Slot` asc')
             ->get();
 
+            $totalMigraciones = new \stdClass();
+            $totalMigraciones->Tipo = 'Total Migraciones';
+            $totalMigraciones->Hora = '';
+            $totalMigraciones->day1 = $migraciones->sum($day1);
+            $totalMigraciones->day2 = $migraciones->sum($day2);
+            $totalMigraciones->day3 = $migraciones->sum($day3);
+            $totalMigraciones->day4 = $migraciones->sum($day4);
+            $totalMigraciones->day5 = $migraciones->sum($day5);
+            $totalMigraciones->day6 = $migraciones->sum($day6);
+            $totalMigraciones->day7 = $migraciones->sum($day7);
+            $totalMigraciones->Total = $migraciones->sum('Total');
+            $migraciones->push($totalMigraciones);
+
             $fields = ['Tipo','Hora', $day1, $day2, $day3, $day4, $day5, $day6, $day7, 'Total'];
             $series = [];
+
+            $total = new \stdClass();
+            $total->Tipo = 'Total';
+            $total->Hora = '';
+            $total->day1 = $totalAltas->day1 + $totalMigraciones->day1;
+            $total->day2 = $totalAltas->day2 + $totalMigraciones->day2;
+            $total->day3 = $totalAltas->day3 + $totalMigraciones->day3;
+            $total->day4 = $totalAltas->day4 + $totalMigraciones->day4;
+            $total->day5 = $totalAltas->day5 + $totalMigraciones->day5;
+            $total->day6 = $totalAltas->day6 + $totalMigraciones->day6;
+            $total->day7 = $totalAltas->day7 + $totalMigraciones->day7;
+            $total->Total = $totalAltas->Total + $totalMigraciones->Total;
+            $migraciones->push($total);
+
             $series = array_merge($instalaciones->toArray(), $migraciones->toArray());
 
             $date = '';
