@@ -316,14 +316,15 @@ class ControlPanelController extends Controller
             $totalAltas = new \stdClass();
             $totalAltas->Tipo = 'Total Altas';
             $totalAltas->Hora = '';
-            $totalAltas->day1 = $instalaciones->sum($day1);
-            $totalAltas->day2 = $instalaciones->sum($day2);
-            $totalAltas->day3 = $instalaciones->sum($day3);
-            $totalAltas->day4 = $instalaciones->sum($day4);
-            $totalAltas->day5 = $instalaciones->sum($day5);
-            $totalAltas->day6 = $instalaciones->sum($day6);
-            $totalAltas->day7 = $instalaciones->sum($day7);
+            $totalAltas->{$day1} = $instalaciones->sum($day1);
+            $totalAltas->{$day2} = $instalaciones->sum($day2);
+            $totalAltas->{$day3} = $instalaciones->sum($day3);
+            $totalAltas->{$day4} = $instalaciones->sum($day4);
+            $totalAltas->{$day5} = $instalaciones->sum($day5);
+            $totalAltas->{$day6} = $instalaciones->sum($day6);
+            $totalAltas->{$day7} = $instalaciones->sum($day7);
             $totalAltas->Total = $instalaciones->sum('Total');
+
             $instalaciones->push($totalAltas);
 
             $migraciones = Future::query()
@@ -353,13 +354,13 @@ class ControlPanelController extends Controller
             $totalMigraciones = new \stdClass();
             $totalMigraciones->Tipo = 'Total Migraciones';
             $totalMigraciones->Hora = '';
-            $totalMigraciones->day1 = $migraciones->sum($day1);
-            $totalMigraciones->day2 = $migraciones->sum($day2);
-            $totalMigraciones->day3 = $migraciones->sum($day3);
-            $totalMigraciones->day4 = $migraciones->sum($day4);
-            $totalMigraciones->day5 = $migraciones->sum($day5);
-            $totalMigraciones->day6 = $migraciones->sum($day6);
-            $totalMigraciones->day7 = $migraciones->sum($day7);
+            $totalMigraciones->{$day1} = $migraciones->sum($day1);
+            $totalMigraciones->{$day2} = $migraciones->sum($day2);
+            $totalMigraciones->{$day3} = $migraciones->sum($day3);
+            $totalMigraciones->{$day4} = $migraciones->sum($day4);
+            $totalMigraciones->{$day5} = $migraciones->sum($day5);
+            $totalMigraciones->{$day6} = $migraciones->sum($day6);
+            $totalMigraciones->{$day7} = $migraciones->sum($day7);
             $totalMigraciones->Total = $migraciones->sum('Total');
             $migraciones->push($totalMigraciones);
 
@@ -369,13 +370,13 @@ class ControlPanelController extends Controller
             $total = new \stdClass();
             $total->Tipo = 'Total';
             $total->Hora = '';
-            $total->day1 = $totalAltas->day1 + $totalMigraciones->day1;
-            $total->day2 = $totalAltas->day2 + $totalMigraciones->day2;
-            $total->day3 = $totalAltas->day3 + $totalMigraciones->day3;
-            $total->day4 = $totalAltas->day4 + $totalMigraciones->day4;
-            $total->day5 = $totalAltas->day5 + $totalMigraciones->day5;
-            $total->day6 = $totalAltas->day6 + $totalMigraciones->day6;
-            $total->day7 = $totalAltas->day7 + $totalMigraciones->day7;
+            $total->{$day1} = $totalAltas->{$day1} + $totalMigraciones->{$day1};
+            $total->{$day2} = $totalAltas->{$day2} + $totalMigraciones->{$day2};
+            $total->{$day3} = $totalAltas->{$day3} + $totalMigraciones->{$day3};
+            $total->{$day4} = $totalAltas->{$day4} + $totalMigraciones->{$day4};
+            $total->{$day5} = $totalAltas->{$day5} + $totalMigraciones->{$day5};
+            $total->{$day6} = $totalAltas->{$day6} + $totalMigraciones->{$day6};
+            $total->{$day7} = $totalAltas->{$day7} + $totalMigraciones->{$day7};
             $total->Total = $totalAltas->Total + $totalMigraciones->Total;
             $migraciones->push($total);
 
