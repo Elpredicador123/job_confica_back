@@ -9,11 +9,13 @@ use App\Imports\GeneralsImport;
 use App\Imports\DiaryImport;
 use App\Imports\AuditImport;
 use App\Imports\EvidenceImport;
+use App\Imports\TechnicalImport;
 use App\Models\Activity;
 use App\Models\Future;
 use App\Models\Diary;
 use App\Models\Audit;
 use App\Models\Evidence;
+use App\Models\Technical;
 use Excel;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -49,6 +51,11 @@ class ImportController extends Controller
     public function indexEvidence()
     {
         return view('import.evidence');
+    }
+
+    public function indexTechnical()
+    {
+        return view('import.technical');
     }
 
     public function import(Request $request)
@@ -190,6 +197,35 @@ class ImportController extends Controller
             return redirect()->route('importevidence.index')->with('message', 'Importación de evidencia completada '.$filename.' tiempo '.$execution_time);
         } catch(Exception $ex){
             Log::info("Error al importar importEvidence: "+$ex);
+        }
+    }
+
+    public function importTechnical(Request $request)
+    {
+        
+        $this->validate($request, [
+            'file' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request){
+                    $expectedValue = 'xlsx';
+                    $extension = $request->file('file')->getClientOriginalExtension();
+                    if ($extension != $expectedValue) $fail("El archivo no tiene el valor esperado '{$expectedValue}'.");
+                },
+            ]
+        ],
+        [
+            'file.required' => 'El archivo es requerido',
+        ]);
+        try{
+            $time_start = microtime(true);
+            $file = $request->file('file');
+            Excel::import(new TechnicalImport, $file);
+            $filename = $file->getClientOriginalName();
+            $time_end = microtime(true);
+            $execution_time = round(($time_end - $time_start), 2);
+            return redirect()->route('importtechnical.index')->with('message', 'Importación de tecnico completada '.$filename.' tiempo '.$execution_time);
+        } catch(Exception $ex){
+            Log::info("Error al importar importTechnical: "+$ex);
         }
     }
 }

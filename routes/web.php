@@ -35,6 +35,9 @@ Route::post('/importauditFile', [ImportController::class, 'importAudit'])->name(
 Route::get('/importevidence', [ImportController::class, 'indexEvidence'])->name('importevidence.index');
 Route::post('/importevidenceFile', [ImportController::class, 'importEvidence'])->name('importevidence.file');
 
+Route::get('/importtechnical', [ImportController::class, 'indexTechnical'])->name('importtechnical.index');
+Route::post('/importtechnicalFile', [ImportController::class, 'importTechnical'])->name('importtechnical.file');
+
 //retornar la vista welcome
 Route::get('/apis', function () {
     $routes = [];

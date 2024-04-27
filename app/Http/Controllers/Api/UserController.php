@@ -60,6 +60,8 @@ class UserController extends Controller
         try {
             $requestData = $request->all();
             $requestData['password'] = bcrypt($requestData['password']);
+            //obtener el username y hacerle una transformacion: Que se complete con [Primera letra del nombre][Apellido Paterno][2 primeros dígitos del DNI]
+            $requestData['username'] = strtolower(substr($requestData['Nombres'], 0, 1) . $requestData['Apellido_Paterno'] . substr($requestData['Dni'], 0, 2));
             
             $user = User::create($requestData);
 
