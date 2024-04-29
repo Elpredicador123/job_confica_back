@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Technical;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class TechnicalController extends Controller
 {
@@ -13,6 +14,30 @@ class TechnicalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function listWeekBirthdays()
+    {
+        try {
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $endOfWeek = Carbon::now()->endOfWeek();
+            $technical = Technical::whereMonth('Fecha_Nacimiento', Carbon::now()->month)
+            ->whereDay('Fecha_Nacimiento', '>=', $startOfWeek->day)
+            ->whereDay('Fecha_Nacimiento', '<=', $endOfWeek->day)
+            ->get();
+
+            return response()->json([
+                "status" => "success",
+                'message' => 'Listado de técnicos',
+                'data' => $technical,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                'message' => 'Error: TechnicalController listWeekBirthdays',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function index()
     {
         try {

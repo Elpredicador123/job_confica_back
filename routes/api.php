@@ -57,6 +57,7 @@ Route::group(['prefix' => 'news'], function ($router) {
 });
 
 Route::group(['prefix' => 'reservation'], function ($router) {
+    Route::get('/listweek', [ReservationController::class, 'listWeek']);
     Route::get('/all', [ReservationController::class, 'index']);
     Route::post('/store', [ReservationController::class, 'store']);
     Route::get('/show/{id}', [ReservationController::class, 'show']);
@@ -81,6 +82,7 @@ Route::group(['prefix' => 'video'], function ($router) {
 });
 
 Route::group(['prefix' => 'technical'], function ($router) {
+    Route::get('/listweekbirthdays', [TechnicalController::class, 'listWeekBirthdays']);
     Route::get('/all', [TechnicalController::class, 'index']);
     Route::post('/store', [TechnicalController::class, 'store']);
     Route::get('/show/{id}', [TechnicalController::class, 'show']);

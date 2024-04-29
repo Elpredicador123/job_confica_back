@@ -18,7 +18,7 @@ class AddColumnsOnUsersTable extends Migration
             $table->string('Apellido_Paterno')->nullable();
             $table->string('Apellido_Materno')->nullable();
             $table->string('Dni')->nullable();
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
         });
     }
 
@@ -30,7 +30,7 @@ class AddColumnsOnUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn(['Nombres', 'Apellido_Paterno', 'Apellido_Materno', 'Dni', 'email']);
         });
     }
 }
