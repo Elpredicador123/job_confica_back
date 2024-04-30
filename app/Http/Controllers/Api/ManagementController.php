@@ -16,7 +16,9 @@ class ManagementController extends Controller
     {
         try {
             $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente','Suspendido'])
             ->where('activities.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
@@ -65,7 +67,9 @@ class ManagementController extends Controller
     {
         try {
             $zones = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->whereIn('activities.Estado actividad', ['Completado', 'Iniciado', 'Pendiente','Suspendido'])
             ->where('activities.Subtipo de Actividad','LIKE', '%eparaci%')
             #->whereRaw('DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = CURRENT_DATE')

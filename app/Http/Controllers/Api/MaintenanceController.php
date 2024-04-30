@@ -19,7 +19,9 @@ class MaintenanceController extends Controller
             $managers = Zone::join('activities','activities.Nodo_zona','=', 'zones.Nodo')
             ->join('effectives', 'effectives.cod_liq', '=', 'activities.Cod_liq')//queda
             ->join('technicals', 'activities.Carnet', '=', 'technicals.Carnet')
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->whereIn('activities.Estado actividad', ['Completado'])//queda
             ->where('activities.Subtipo de Actividad','LIKE', '%eparaci%')//queda
             ->whereNotIn('activities.Subtipo de Actividad', ['Reparación Telefonía Básica','Reparación Speedy'])//queda
@@ -123,7 +125,9 @@ class MaintenanceController extends Controller
 
             $managers = Zone::join('generals','generals.Nodo_zona','=', 'zones.Nodo')
             ->whereIn('generals.Estado actividad', ['Completado'])
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->where('generals.Subtipo de Actividad','LIKE', '%eparaci%')
             ->where(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), $startDateInstalations)
             ->select(
@@ -135,7 +139,9 @@ class MaintenanceController extends Controller
 
             $instalacionsclients = Zone::join('generals','generals.Nodo_zona','=', 'zones.Nodo')
             ->whereIn('generals.Estado actividad', ['Completado'])
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->whereIn('zones.Gestor Altas', $managers->pluck('Gestor Altas')->toArray())
             ->where('generals.Subtipo de Actividad','LIKE', '%eparaci%')
             ->where(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), $startDateInstalations)
@@ -144,7 +150,9 @@ class MaintenanceController extends Controller
 
             $reparationsclients = Zone::join('generals','generals.Nodo_zona','=', 'zones.Nodo')
             ->whereIn('generals.Estado actividad', ['Completado'])
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->whereIn('generals.Código de Cliente', $instalacionsclients->pluck('Código de Cliente')->toArray())
             ->where('generals.Subtipo de Actividad','LIKE', '%eparaci%')
             ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDateReparations, $endDateReparations])
@@ -209,7 +217,9 @@ class MaintenanceController extends Controller
 
             $managers = Zone::join('generals','generals.Nodo_zona','=', 'zones.Nodo')
             ->whereIn('generals.Estado actividad', ['Completado'])
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->where('generals.Técnico','NOT LIKE', '%BK%')
             ->where('generals.Subtipo de Actividad','LIKE', '%eparaci%')
             ->where(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), $startDateInstalations)
@@ -222,7 +232,9 @@ class MaintenanceController extends Controller
 
             $instalacionsclients = Zone::join('generals','generals.Nodo_zona','=', 'zones.Nodo')
             ->whereIn('generals.Estado actividad', ['Completado'])
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->whereIn('generals.Técnico', $managers->pluck('Técnico')->toArray())
             ->where('generals.Técnico','NOT LIKE', '%BK%')
             ->where('generals.Subtipo de Actividad','LIKE', '%eparaci%')
@@ -232,7 +244,9 @@ class MaintenanceController extends Controller
 
             $reparationsclients = Zone::join('generals','generals.Nodo_zona','=', 'zones.Nodo')
             ->whereIn('generals.Estado actividad', ['Completado'])
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->whereIn('generals.Código de Cliente', $instalacionsclients->pluck('Código de Cliente')->toArray())
             ->where('generals.Técnico','NOT LIKE', '%BK%')
             ->where('generals.Subtipo de Actividad','LIKE', '%eparaci%')

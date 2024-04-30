@@ -291,7 +291,9 @@ class ControlPanelController extends Controller
             
             $instalaciones = Future::query()
             ->join('zones','futures.Nodo_zona','=', 'zones.Nodo')
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->whereIn('futures.Tipo de Cita',['Cliente'])
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
@@ -333,7 +335,9 @@ class ControlPanelController extends Controller
 
             $migraciones = Future::query()
             ->join('zones','futures.Nodo_zona','=', 'zones.Nodo')
-            ->where('zones.Zonal', $citie_name)
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->where('zones.Zonal', $citie_name);
+            })
             ->whereIn('futures.Tipo de Cita',['Cliente'])
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {

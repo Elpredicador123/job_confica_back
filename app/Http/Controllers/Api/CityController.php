@@ -19,6 +19,8 @@ class CityController extends Controller
             $cities = Zone::select('Zonal as name')
             ->distinct(['Zonal',])
             ->get();
+            //agregar al comienzo de la lista un valor de todos
+            $cities->prepend(['name' => 'Todos']);
             return response()->json([
                 "status" => "success",
                 'message' => 'Lista de ciudades',

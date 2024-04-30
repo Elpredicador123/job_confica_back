@@ -20,6 +20,8 @@ class AuditController extends Controller
             $months = Audit::selectRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) as MES')
             ->groupByRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0"))')
             ->get();
+            //agregar al comienzo de la lista un valor de todos
+            $months->prepend(['MES' => 'Todos']);
             return response()->json([
                 "status" => "success",
                 'message' => 'Lista de meses de auditorias',

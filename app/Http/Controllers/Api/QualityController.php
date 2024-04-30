@@ -16,8 +16,12 @@ class QualityController extends Controller
     {
         try {
             $audits = Audit::join('technicals', 'technicals.Carnet', '=', 'audits.Carnet de Tecnico')
-            ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
-            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month])
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name]);
+            })
+            ->when($month != 'Todos', function ($query) use ($month) {
+                $query->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month]);
+            })
             ->select(
                 'technicals.Contrata',
                 DB::raw('COUNT(*) AS `Inspecciones Totales`'),
@@ -58,8 +62,12 @@ class QualityController extends Controller
     {
         try {
             $audits = Audit::join('technicals', 'technicals.Carnet', '=', 'audits.Carnet de Tecnico')
-            ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
-            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month])
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name]);
+            })
+            ->when($month != 'Todos', function ($query) use ($month) {
+                $query->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month]);
+            })
             ->select(
                 'technicals.Nombre_Completo as Nombre de Tecnico',
                 'audits.Carnet de Tecnico as CF',
@@ -102,8 +110,12 @@ class QualityController extends Controller
     {
         try {
             $audits = Audit::join('technicals', 'technicals.Carnet', '=', 'audits.Carnet de Tecnico')
-            ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
-            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month])
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name]);
+            })
+            ->when($month != 'Todos', function ($query) use ($month) {
+                $query->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month]);
+            })
             ->select(
                 'technicals.Contrata',
                 DB::raw('SUM(CASE WHEN audits.Fotocheck2 = "NO" THEN 1 ELSE 0 END) AS Fotocheck'),
@@ -163,8 +175,12 @@ class QualityController extends Controller
     {
         try {
             $audits = Audit::join('technicals', 'technicals.Carnet', '=', 'audits.Carnet de Tecnico')
-            ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
-            ->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month])
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name]);
+            })
+            ->when($month != 'Todos', function ($query) use ($month) {
+                $query->whereRaw('CONCAT(audits.AÑO,"-",LPAD(audits.MES,2,"0")) = ?', [$month]);
+            })
             ->select(
                 'technicals.Nombre_Completo as Nombre de Tecnico',
                 'audits.Carnet de Tecnico as CF',
@@ -226,7 +242,9 @@ class QualityController extends Controller
     {
         try {
             $evidences = Evidence::join('technicals', 'technicals.Carnet', '=', 'evidence.CODTECNICO')
-            ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name]);
+            })
             /*->whereRaw('CONCAT(evidence.AÑO,"-",
             CASE 
                 WHEN evidence.MES = "Enero" THEN "01" 
@@ -292,7 +310,9 @@ class QualityController extends Controller
     {
         try {
             $evidences = Evidence::join('technicals', 'technicals.Carnet', '=', 'evidence.CODTECNICO')
-            ->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name])
+            ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
+                $query->whereRaw("? LIKE CONCAT(technicals.Zonal, '%')", [$citie_name]);
+            })
             /*->whereRaw('CONCAT(evidence.AÑO,"-",
             CASE 
                 WHEN evidence.MES = "Enero" THEN "01" 
