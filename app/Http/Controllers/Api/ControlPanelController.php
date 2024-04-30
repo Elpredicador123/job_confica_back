@@ -275,12 +275,12 @@ class ControlPanelController extends Controller
         }
     }
 
-    public function getDiaryTable()
+    public function getDiaryTable($citie_name='')
     {
         try {
-
-            $startDate = Carbon::now()->addDays(0)->startOfDay();
-            $endDate = Carbon::now()->addDays(7)->endOfDay();
+            $startDate = Carbon::now()->addDays(0)->format('Y-m-y');
+            $endDate = Carbon::now()->addDays(7)->format('Y-m-y');
+            $day0 = Carbon::now()->addDays(0)->format('d/m/y');
             $day1 = Carbon::now()->addDays(1)->format('d/m/y');
             $day2 = Carbon::now()->addDays(2)->format('d/m/y');
             $day3 = Carbon::now()->addDays(3)->format('d/m/y');
@@ -290,6 +290,8 @@ class ControlPanelController extends Controller
             $day7 = Carbon::now()->addDays(7)->format('d/m/y');
             
             $instalaciones = Future::query()
+            ->join('zones','futures.Nodo_zona','=', 'zones.Nodo')
+            ->where('zones.Zonal', $citie_name)
             ->whereIn('futures.Tipo de Cita',['Cliente'])
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
@@ -300,6 +302,7 @@ class ControlPanelController extends Controller
             ->select(
                 DB::raw("'Altas' as Tipo"),
                 'futures.Time Slot as Hora',
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 0 DAY) THEN 1 ELSE 0 END) AS `$day0`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 1 DAY) THEN 1 ELSE 0 END) AS `$day1`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 2 DAY) THEN 1 ELSE 0 END) AS `$day2`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 3 DAY) THEN 1 ELSE 0 END) AS `$day3`"),
@@ -316,6 +319,7 @@ class ControlPanelController extends Controller
             $totalAltas = new \stdClass();
             $totalAltas->Tipo = 'Total Altas';
             $totalAltas->Hora = '';
+            $totalAltas->{$day0} = $instalaciones->sum($day0);
             $totalAltas->{$day1} = $instalaciones->sum($day1);
             $totalAltas->{$day2} = $instalaciones->sum($day2);
             $totalAltas->{$day3} = $instalaciones->sum($day3);
@@ -328,6 +332,8 @@ class ControlPanelController extends Controller
             $instalaciones->push($totalAltas);
 
             $migraciones = Future::query()
+            ->join('zones','futures.Nodo_zona','=', 'zones.Nodo')
+            ->where('zones.Zonal', $citie_name)
             ->whereIn('futures.Tipo de Cita',['Cliente'])
             ->where('futures.Subtipo de Actividad', 'NOT LIKE', '%Rutina%')
             ->where(function ($query) {
@@ -338,6 +344,7 @@ class ControlPanelController extends Controller
             ->select(
                 DB::raw("'Migraciones' as Tipo"),
                 'futures.Time Slot as Hora',
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 0 DAY) THEN 1 ELSE 0 END) AS `$day0`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 1 DAY) THEN 1 ELSE 0 END) AS `$day1`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 2 DAY) THEN 1 ELSE 0 END) AS `$day2`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 3 DAY) THEN 1 ELSE 0 END) AS `$day3`"),
@@ -354,6 +361,7 @@ class ControlPanelController extends Controller
             $totalMigraciones = new \stdClass();
             $totalMigraciones->Tipo = 'Total Migraciones';
             $totalMigraciones->Hora = '';
+            $totalMigraciones->{$day0} = $migraciones->sum($day0);
             $totalMigraciones->{$day1} = $migraciones->sum($day1);
             $totalMigraciones->{$day2} = $migraciones->sum($day2);
             $totalMigraciones->{$day3} = $migraciones->sum($day3);
@@ -364,12 +372,13 @@ class ControlPanelController extends Controller
             $totalMigraciones->Total = $migraciones->sum('Total');
             $migraciones->push($totalMigraciones);
 
-            $fields = ['Tipo','Hora', $day1, $day2, $day3, $day4, $day5, $day6, $day7, 'Total'];
+            $fields = ['Tipo','Hora', $day0, $day1, $day2, $day3, $day4, $day5, $day6, $day7, 'Total'];
             $series = [];
 
             $total = new \stdClass();
             $total->Tipo = 'Total';
             $total->Hora = '';
+            $total->{$day0} = $totalAltas->{$day0} + $totalMigraciones->{$day0};
             $total->{$day1} = $totalAltas->{$day1} + $totalMigraciones->{$day1};
             $total->{$day2} = $totalAltas->{$day2} + $totalMigraciones->{$day2};
             $total->{$day3} = $totalAltas->{$day3} + $totalMigraciones->{$day3};

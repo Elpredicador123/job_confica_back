@@ -128,7 +128,7 @@ Route::group(['prefix' => 'control-panel'], function ($router) {
     Route::get('/installationprogresstable', [ControlPanelController::class, 'getInstallationProgressTable']);
     Route::get('/maintenanceprogressgraphic', [ControlPanelController::class, 'getMaintenanceProgressGraphic']);
     Route::get('/maintenanceprogresstable', [ControlPanelController::class, 'getMaintenanceProgressTable']);
-    Route::get('/diarytable', [ControlPanelController::class, 'getDiaryTable']);
+    Route::get('/diarytable/{citie_name?}', [ControlPanelController::class, 'getDiaryTable']);
     Route::get('/installationratiographic', [ControlPanelController::class, 'getInstallationRatioGraphic']);
     Route::get('/maintenanceratiographic', [ControlPanelController::class, 'getMaintenanceRatioGraphic']);
     Route::get('/productiontable', [ControlPanelController::class, 'getProductionTable']);
