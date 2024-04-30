@@ -43,7 +43,7 @@ class TechnicalController extends Controller
     {
         try {
             //traer todo excepto el campo Apellido_materno y Apellido_paterno y nombres y formato de fecha 
-            $technical = Technical::all()->makeHidden(['Apellido_materno', 'Apellido_paterno', 'Nombres'])
+            $technical = Technical::all()
             ->map(function ($item) {
                 $item->Fecha_Nacimiento = Carbon::parse($item->Fecha_Nacimiento)->format('d-m-Y');
                 return $item;
