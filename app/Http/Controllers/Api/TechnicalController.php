@@ -17,11 +17,12 @@ class TechnicalController extends Controller
     public function listWeekBirthdays()
     {
         try {
-            $startOfWeek = Carbon::now()->startOfWeek();
-            $endOfWeek = Carbon::now()->endOfWeek();
-            $technical = Technical::whereMonth('Fecha_Nacimiento', Carbon::now()->month)
-            ->whereDay('Fecha_Nacimiento', '>=', $startOfWeek->day)
-            ->whereDay('Fecha_Nacimiento', '<=', $endOfWeek->day)
+            $startOfWeek = Carbon::now()->startOfWeek()->format('Y-m-d');
+            $endOfWeek = Carbon::now()->endOfWeek()->format('Y-m-d');
+
+            $technical = Technical::where(function($query) use ($startOfWeek, $endOfWeek) {
+                $query->whereRaw('DAYOFYEAR(Fecha_Nacimiento) BETWEEN DAYOFYEAR(?) AND DAYOFYEAR(?)', [$startOfWeek, $endOfWeek]);
+            })
             ->get();
 
             return response()->json([
