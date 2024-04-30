@@ -203,18 +203,25 @@ class ImportController extends Controller
     public function importTechnical(Request $request)
     {
         
+        // $this->validate($request, [
+        //     'file' => [
+        //         'required',
+        //         function ($attribute, $value, $fail) use ($request){
+        //             $expectedValue = 'xlsx';
+        //             $extension = $request->file('file')->getClientOriginalExtension();
+        //             if ($extension != $expectedValue) $fail("El archivo no tiene el valor esperado '{$expectedValue}'.");
+        //         },
+        //     ]
+        // ],
+        // [
+        //     'file.required' => 'El archivo es requerido',
+        // ]);
         $this->validate($request, [
-            'file' => [
-                'required',
-                function ($attribute, $value, $fail) use ($request){
-                    $expectedValue = 'xlsx';
-                    $extension = $request->file('file')->getClientOriginalExtension();
-                    if ($extension != $expectedValue) $fail("El archivo no tiene el valor esperado '{$expectedValue}'.");
-                },
-            ]
+            'file' => 'required|mimetypes:text/plain'
         ],
         [
             'file.required' => 'El archivo es requerido',
+            'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
         ]);
         try{
             $time_start = microtime(true);
