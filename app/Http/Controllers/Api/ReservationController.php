@@ -22,26 +22,11 @@ class ReservationController extends Controller
             $startOfWeek = Carbon::now()->startOfWeek()->format('Y-m-d');
             $endOfWeek = Carbon::now()->endOfWeek()->format('Y-m-d');
             $reservations = Reservation::with(['user'])->whereBetween('date', [$startOfWeek, $endOfWeek])->get();
-            $transformedReservations = collect($reservations)->map(function ($reservation) {
-                return [
-                    'id' => $reservation->id,
-                    'title' => $reservation->title,
-                    'description' => $reservation->description,
-                    'number_of_people' => $reservation->number_of_people,
-                    'date' => $reservation->date . "T" . substr($reservation->start_time, 0, 5) . "-" . substr($reservation->end_time, 0, 5),
-                    'start_time' => $reservation->start_time,
-                    'end_time' => $reservation->end_time,
-                    'user_id' => $reservation->user_id,
-                    'is_active' => $reservation->is_active,
-                    'username' => $reservation->user->username,
-                    // Agrega cualquier otro campo que necesites
-                ];
-            });
 
             return response()->json([
                 "status" => "success",
                 'message' => 'Listado de reservas',
-                'data' => $transformedReservations,
+                'data' => $reservations,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -55,26 +40,12 @@ class ReservationController extends Controller
     public function index()
     {
         try {
-            $reservations = Reservation::all();
-            $transformedReservations = collect($reservations)->map(function ($reservation) {
-                return [
-                    'id' => $reservation->id,
-                    'title' => $reservation->title,
-                    'description' => $reservation->description,
-                    'number_of_people' => $reservation->number_of_people,
-                    'date' => $reservation->date . "T" . substr($reservation->start_time, 0, 5) . "-" . substr($reservation->end_time, 0, 5),
-                    'start_time' => $reservation->start_time,
-                    'end_time' => $reservation->end_time,
-                    'user_id' => $reservation->user_id,
-                    'is_active' => $reservation->is_active,
-                    // Agrega cualquier otro campo que necesites
-                ];
-            });
+            $reservations = Reservation::with(['user'])->get();
 
             return response()->json([
                 "status" => "success",
                 'message' => 'Listado de reservas',
-                'data' => $transformedReservations,
+                'data' => $reservations,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
