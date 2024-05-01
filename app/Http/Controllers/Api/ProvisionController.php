@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Zone;
 use App\Models\Diary;
+use App\Models\DiaryPrimary;
 use App\Models\General;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -16,17 +17,16 @@ class ProvisionController extends Controller
     public function getDiaryContrataGraphic($citie_name='')
     {
         try {
-            $diaries = Diary::join('zones', 'zones.Nodo','=','diaries.NODO')
-            ->join('technicals', 'diaries.resourceId', '=', 'technicals.Carnet')
+            $diaries = DiaryPrimary::query()
             ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
-                $query->where('zones.Zonal', $citie_name);
+                $query->whereRaw("? LIKE CONCAT(diary_primaries.Zonal, '%')", [$citie_name]);
             })
-            ->whereRaw('DATE_FORMAT(STR_TO_DATE(diaries.fecha_tde, "%Y%m%d"), "%Y-%m-%d") = CURRENT_DATE')
+            //->whereRaw('DATE_FORMAT(STR_TO_DATE(diary_primaries.fecha_tde, "%Y%m%d"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
-                'technicals.Contrata',
-                DB::raw('ROUND(SUM(diaries.nume) / SUM(diaries.deno) * 100,2) as porcentaje')
+                'diary_primaries.Contrata as Contrata',
+                DB::raw('ROUND(SUM(diary_primaries.toa_cumpl_1ra) / SUM(diary_primaries.`Cuenta primera agenda`) * 100,2) as porcentaje')
             )
-            ->groupBy(['technicals.Contrata'])
+            ->groupBy(['diary_primaries.Contrata'])
             ->orderBy('porcentaje', 'desc')
             ->take(5)
             ->get();
@@ -66,17 +66,16 @@ class ProvisionController extends Controller
     {
         try {
 
-            $diaries = Diary::join('zones', 'zones.Nodo','=','diaries.NODO')
-            ->join('technicals', 'technicals.Carnet', '=','diaries.resourceId')
+            $diaries = DiaryPrimary::query()
             ->when($citie_name != 'Todos', function ($query) use ($citie_name) {
-                $query->where('zones.Zonal', $citie_name);
+                $query->whereRaw("? LIKE CONCAT(diary_primaries.Zonal, '%')", [$citie_name]);
             })
-            ->whereRaw('DATE_FORMAT(STR_TO_DATE(diaries.fecha_tde, "%Y%m%d"), "%Y-%m-%d") = CURRENT_DATE')
+            #->whereRaw('DATE_FORMAT(STR_TO_DATE(diary_primaries.fecha_tde, "%Y%m%d"), "%Y-%m-%d") = CURRENT_DATE')
             ->select(
-                'zones.Gestor Altas',
-                DB::raw('ROUND(SUM(diaries.nume) / SUM(diaries.deno) * 100,2) as porcentaje')
+                'Gestor',
+                DB::raw('ROUND(SUM(diary_primaries.toa_cumpl_1ra) / SUM(diary_primaries.`Cuenta primera agenda`) * 100,2) as porcentaje')
             )
-            ->groupBy(['Gestor Altas'])
+            ->groupBy(['Gestor'])
             ->orderBy('porcentaje', 'desc')
             ->take(5)
             ->get();
@@ -85,7 +84,7 @@ class ProvisionController extends Controller
             $series = [];
 
             foreach ($diaries as $diary) {
-                $categories[] = $diary['Gestor Altas'];
+                $categories[] = $diary['Gestor'];
                 $series[] = $diary->porcentaje;
             }
 

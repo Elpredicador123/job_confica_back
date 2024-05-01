@@ -7,6 +7,7 @@ use App\Imports\ActivitiesImport;
 use App\Imports\FuturesImport;
 use App\Imports\GeneralsImport;
 use App\Imports\DiaryImport;
+use App\Imports\DiaryPrimaryImport;
 use App\Imports\AuditImport;
 use App\Imports\EvidenceImport;
 use App\Imports\TechnicalImport;
@@ -41,6 +42,11 @@ class ImportController extends Controller
     public function indexDiary()
     {
         return view('import.diary');
+    }
+
+    public function indexDiaryPrimary()
+    {
+        return view('import.diaryprimary');
     }
 
     public function indexAudit()
@@ -149,6 +155,30 @@ class ImportController extends Controller
             return redirect()->route('importdiary.index')->with('message', 'Importación de agenda completada '.$filename.' tiempo '.$execution_time);
         } catch(Exception $ex){
             Log::info("Error al importar importDiary: "+$ex);
+        }
+    }
+
+    public function importDiaryPrimary(Request $request)
+    {
+        
+        $this->validate($request, [
+            'file' => 'required|mimetypes:text/plain'
+        ],
+        [
+            'file.required' => 'El archivo es requerido',
+            'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
+        ]);
+        try{
+            Diary::truncate();
+            $time_start = microtime(true);
+            $file = $request->file('file');
+            Excel::import(new DiaryPrimaryImport, $file);
+            $filename = $file->getClientOriginalName();
+            $time_end = microtime(true);
+            $execution_time = round(($time_end - $time_start), 2);
+            return redirect()->route('importdiaryprimary.index')->with('message', 'Importación de agenda primera completada '.$filename.' tiempo '.$execution_time);
+        } catch(Exception $ex){
+            Log::info("Error al importar importDiaryPrimary: "+$ex);
         }
     }
 

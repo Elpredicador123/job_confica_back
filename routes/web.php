@@ -29,6 +29,9 @@ Route::post('/importgeneralFile', [ImportController::class, 'importGeneral'])->n
 Route::get('/importdiary', [ImportController::class, 'indexDiary'])->name('importdiary.index');
 Route::post('/importdiaryFile', [ImportController::class, 'importDiary'])->name('importdiary.file');
 
+Route::get('/importdiaryprimary', [ImportController::class, 'indexDiaryPrimary'])->name('importdiaryprimary.index');
+Route::post('/importdiaryprimaryFile', [ImportController::class, 'importDiaryPrimary'])->name('importdiaryprimary.file');
+
 Route::get('/importaudit', [ImportController::class, 'indexAudit'])->name('importaudit.index');
 Route::post('/importauditFile', [ImportController::class, 'importAudit'])->name('importaudit.file');
 
