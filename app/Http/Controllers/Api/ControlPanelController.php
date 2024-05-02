@@ -278,8 +278,8 @@ class ControlPanelController extends Controller
     public function getDiaryTable($citie_name='')
     {
         try {
-            $startDate = Carbon::now()->addDays(0)->format('Y-m-y');
-            $endDate = Carbon::now()->addDays(7)->format('Y-m-y');
+            $startDate = Carbon::now()->addDays(0)->format('Y-m-d');
+            $endDate = Carbon::now()->addDays(7)->format('Y-m-d');
             $day0 = Carbon::now()->addDays(0)->format('d/m/y');
             $day1 = Carbon::now()->addDays(1)->format('d/m/y');
             $day2 = Carbon::now()->addDays(2)->format('d/m/y');
