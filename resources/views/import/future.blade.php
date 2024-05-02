@@ -17,7 +17,6 @@
                 <h1 class="h2 py-5 bg-black text-light text-uppercase">Importación Actividades Futuras</h1>
             </div>
             <div class="col-12 py-3">
-                <p>"Al realizar una nueva importación se limpiarán los datos de importaciones anteriores."</p>
                 <p>"El archivo debe ser de tipo CSV text/plain"</p>
             </div>
         </div>

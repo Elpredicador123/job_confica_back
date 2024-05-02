@@ -14,6 +14,7 @@ use App\Imports\TechnicalImport;
 use App\Models\Activity;
 use App\Models\Future;
 use App\Models\Diary;
+use App\Models\DiaryPrimary;
 use App\Models\Audit;
 use App\Models\Evidence;
 use App\Models\Technical;
@@ -169,7 +170,7 @@ class ImportController extends Controller
             'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
         ]);
         try{
-            Diary::truncate();
+            DiaryPrimary::truncate();
             $time_start = microtime(true);
             $file = $request->file('file');
             Excel::import(new DiaryPrimaryImport, $file);
@@ -232,20 +233,6 @@ class ImportController extends Controller
 
     public function importTechnical(Request $request)
     {
-        
-        // $this->validate($request, [
-        //     'file' => [
-        //         'required',
-        //         function ($attribute, $value, $fail) use ($request){
-        //             $expectedValue = 'xlsx';
-        //             $extension = $request->file('file')->getClientOriginalExtension();
-        //             if ($extension != $expectedValue) $fail("El archivo no tiene el valor esperado '{$expectedValue}'.");
-        //         },
-        //     ]
-        // ],
-        // [
-        //     'file.required' => 'El archivo es requerido',
-        // ]);
         $this->validate($request, [
             'file' => 'required|mimetypes:text/plain'
         ],
