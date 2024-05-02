@@ -40,10 +40,10 @@ class ProvisionController extends Controller
             }
 
             $date = '';
-            if (Diary::count() == 0) {
+            if (DiaryPrimary::count() == 0) {
                 $date = 'No hay datos';
             } else {
-                $date = Diary::orderBy('created_at', 'desc')->first()->created_at;
+                $date = DiaryPrimary::orderBy('created_at', 'desc')->first()->created_at;
                 $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             }
             return response()->json([
@@ -89,10 +89,10 @@ class ProvisionController extends Controller
             }
 
             $date = '';
-            if (Diary::count() == 0) {
+            if (DiaryPrimary::count() == 0) {
                 $date = 'No hay datos';
             } else {
-                $date = Diary::orderBy('created_at', 'desc')->first()->created_at;
+                $date = DiaryPrimary::orderBy('created_at', 'desc')->first()->created_at;
                 $date = Carbon::parse($date)->format('d/m/Y H:i:s');
             }
             return response()->json([
