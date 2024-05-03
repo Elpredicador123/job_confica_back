@@ -36,7 +36,7 @@ class NewsController extends Controller
     public function index()
     {
         try {
-            $news = News::with(['images'])->get();
+            $news = News::with(['user','images'])->get();
 
             return response()->json([
                 "status" => "success",
