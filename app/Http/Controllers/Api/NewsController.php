@@ -18,7 +18,7 @@ class NewsController extends Controller
     public function principal()
     {
         try {
-            $news = News::with(['images'])->take(10)->orderBy('date','desc')->get();
+            $news = News::with(['user','images'])->take(10)->orderBy('date','desc')->get();
 
             return response()->json([
                 "status" => "success",
