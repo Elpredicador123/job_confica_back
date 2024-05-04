@@ -299,6 +299,7 @@ class ControlPanelController extends Controller
                 $query->where('futures.Subtipo de Actividad','LIKE', '%nstalaci%')
                 ->where('futures.Subtipo de Actividad','NOT LIKE', '%igraci%');
             })
+            ->where('futures.Time Slot', '!=', '') 
             ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDate, $endDate])
             ->select(
                 DB::raw("'Altas' as Tipo"),
@@ -341,6 +342,7 @@ class ControlPanelController extends Controller
                 $query->where('futures.Subtipo de Actividad','LIKE', '%igraci%')
                 ->where('futures.Subtipo de Actividad','LIKE', '%nstalaci%');
             })
+            ->where('futures.Time Slot', '!=', '') 
             ->whereBetween(DB::raw("DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d')"), [$startDate, $endDate])
             ->select(
                 DB::raw("'Migraciones' as Tipo"),
