@@ -287,7 +287,6 @@ class ControlPanelController extends Controller
             $day4 = Carbon::now()->addDays(4)->format('d/m/y');
             $day5 = Carbon::now()->addDays(5)->format('d/m/y');
             $day6 = Carbon::now()->addDays(6)->format('d/m/y');
-            $day7 = Carbon::now()->addDays(7)->format('d/m/y');
             
             $instalaciones = Future::query()
             ->join('zones','futures.Nodo_zona','=', 'zones.Nodo')
@@ -304,14 +303,13 @@ class ControlPanelController extends Controller
             ->select(
                 DB::raw("'Altas' as Tipo"),
                 'futures.Time Slot as Hora',
-                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 0 DAY) THEN 1 ELSE 0 END) AS `$day0`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 0 DAY) AND `Estado actividad` = 'Pendiente' THEN 1 ELSE 0 END) AS `$day0`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 1 DAY) THEN 1 ELSE 0 END) AS `$day1`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 2 DAY) THEN 1 ELSE 0 END) AS `$day2`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 3 DAY) THEN 1 ELSE 0 END) AS `$day3`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 4 DAY) THEN 1 ELSE 0 END) AS `$day4`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 5 DAY) THEN 1 ELSE 0 END) AS `$day5`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 6 DAY) THEN 1 ELSE 0 END) AS `$day6`"),
-                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 7 DAY) THEN 1 ELSE 0 END) AS `$day7`"),
                 DB::raw('count(*) as Total'),
             )
             ->groupBy(['futures.Time Slot'])
@@ -328,7 +326,6 @@ class ControlPanelController extends Controller
             $totalAltas->{$day4} = $instalaciones->sum($day4);
             $totalAltas->{$day5} = $instalaciones->sum($day5);
             $totalAltas->{$day6} = $instalaciones->sum($day6);
-            $totalAltas->{$day7} = $instalaciones->sum($day7);
             $totalAltas->Total = $instalaciones->sum('Total');
 
             $instalaciones->push($totalAltas);
@@ -348,14 +345,13 @@ class ControlPanelController extends Controller
             ->select(
                 DB::raw("'Migraciones' as Tipo"),
                 'futures.Time Slot as Hora',
-                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 0 DAY) THEN 1 ELSE 0 END) AS `$day0`"),
+                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 0 DAY) AND `Estado actividad` = 'Pendiente' THEN 1 ELSE 0 END) AS `$day0`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 1 DAY) THEN 1 ELSE 0 END) AS `$day1`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 2 DAY) THEN 1 ELSE 0 END) AS `$day2`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 3 DAY) THEN 1 ELSE 0 END) AS `$day3`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 4 DAY) THEN 1 ELSE 0 END) AS `$day4`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 5 DAY) THEN 1 ELSE 0 END) AS `$day5`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 6 DAY) THEN 1 ELSE 0 END) AS `$day6`"),
-                DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 7 DAY) THEN 1 ELSE 0 END) AS `$day7`"),
                 DB::raw('count(*) as Total'),
             )
             ->groupBy(['futures.Time Slot'])
@@ -372,11 +368,10 @@ class ControlPanelController extends Controller
             $totalMigraciones->{$day4} = $migraciones->sum($day4);
             $totalMigraciones->{$day5} = $migraciones->sum($day5);
             $totalMigraciones->{$day6} = $migraciones->sum($day6);
-            $totalMigraciones->{$day7} = $migraciones->sum($day7);
             $totalMigraciones->Total = $migraciones->sum('Total');
             $migraciones->push($totalMigraciones);
 
-            $fields = ['Tipo','Hora', $day0, $day1, $day2, $day3, $day4, $day5, $day6, $day7, 'Total'];
+            $fields = ['Tipo','Hora', $day0, $day1, $day2, $day3, $day4, $day5, $day6, 'Total'];
             $series = [];
 
             $total = new \stdClass();
@@ -389,7 +384,6 @@ class ControlPanelController extends Controller
             $total->{$day4} = $totalAltas->{$day4} + $totalMigraciones->{$day4};
             $total->{$day5} = $totalAltas->{$day5} + $totalMigraciones->{$day5};
             $total->{$day6} = $totalAltas->{$day6} + $totalMigraciones->{$day6};
-            $total->{$day7} = $totalAltas->{$day7} + $totalMigraciones->{$day7};
             $total->Total = $totalAltas->Total + $totalMigraciones->Total;
             $migraciones->push($total);
 
