@@ -19,9 +19,13 @@ class ReservationController extends Controller
     public function listWeek()
     {
         try {
-            $startOfWeek = Carbon::now()->startOfWeek()->format('Y-m-d');
-            $endOfWeek = Carbon::now()->endOfWeek()->format('Y-m-d');
-            $reservations = Reservation::with(['user'])->whereBetween('date', [$startOfWeek, $endOfWeek])->get();
+            $start = Carbon::now()->addDays(0)->format('Y-m-d');
+            $end = Carbon::now()->addDays(60)->format('Y-m-d');
+            $reservations = Reservation::with(['user'])
+            ->whereBetween('date', [$start, $end])
+            ->orderBy('date', 'asc')
+            ->take(10)
+            ->get();
 
             return response()->json([
                 "status" => "success",
@@ -76,11 +80,32 @@ class ReservationController extends Controller
     {
         try {
             if ($request->has('id')) {
-                // Actualizar la reserva existente
                 $reservation = Reservation::find($request->id);
                 if ($reservation) {
-                    $reservation->update($request->all());
-                    $message = 'Reserva actualizada correctamente';
+                    $reservation_exists = Reservation::where('date', $request->date)
+                    ->where(function ($query) use ($request) {
+                        $query->where('start_time', '<', $request->start_time)
+                            ->where('end_time', '>', $request->start_time);
+                    })
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('start_time', '<', $request->end_time)
+                            ->where('end_time', '>', $request->end_time);
+                    })
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('start_time', '>', $request->start_time)
+                            ->where('end_time', '<', $request->end_time);
+                    })
+                    ->first();
+                    
+                    if (!$reservation_exists) {
+                        $reservation->update($request->all());
+                        $message = 'Reserva actualizada correctamente';
+                    } else {
+                        return response()->json([
+                            "status" => "error",
+                            'message' => 'Ya existe una reserva en ese horario',
+                        ], 400);
+                    }
                 } else {
                     return response()->json([
                         "status" => "error",
@@ -88,9 +113,30 @@ class ReservationController extends Controller
                     ], 404);
                 }
             } else {
-                // Crear una nueva reserva
-                $reservation = Reservation::create($request->all());
-                $message = 'Reserva creada correctamente';
+                $reservation_exists = Reservation::where('date', $request->date)
+                    ->where(function ($query) use ($request) {
+                        $query->where('start_time', '<', $request->start_time)
+                            ->where('end_time', '>', $request->start_time);
+                    })
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('start_time', '<', $request->end_time)
+                            ->where('end_time', '>', $request->end_time);
+                    })
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('start_time', '>', $request->start_time)
+                            ->where('end_time', '<', $request->end_time);
+                    })
+                    ->first();
+
+                if (!$reservation_exists) {
+                    $reservation = Reservation::create($request->all());
+                    $message = 'Reserva creada correctamente';
+                } else {
+                    return response()->json([
+                        "status" => "error",
+                        'message' => 'Ya existe una reserva en ese horario',
+                    ], 400);
+                }
             }
 
             return response()->json([
