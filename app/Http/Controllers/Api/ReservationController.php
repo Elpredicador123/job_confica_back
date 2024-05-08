@@ -115,16 +115,16 @@ class ReservationController extends Controller
             } else {
                 $reservation_exists = Reservation::where('date', $request->date)
                     ->where(function ($query) use ($request) {
-                        $query->where('start_time', '<', $request->start_time)
-                            ->where('end_time', '>', $request->start_time);
+                        $query->where('start_time', '<=', $request->start_time)
+                            ->where('end_time', '>=', $request->start_time);
                     })
                     ->orWhere(function ($query) use ($request) {
-                        $query->where('start_time', '<', $request->end_time)
-                            ->where('end_time', '>', $request->end_time);
+                        $query->where('start_time', '<=', $request->end_time)
+                            ->where('end_time', '>=', $request->end_time);
                     })
                     ->orWhere(function ($query) use ($request) {
-                        $query->where('start_time', '>', $request->start_time)
-                            ->where('end_time', '<', $request->end_time);
+                        $query->where('start_time', '>=', $request->start_time)
+                            ->where('end_time', '<=', $request->end_time);
                     })
                     ->first();
 
