@@ -17,6 +17,8 @@ class UserController extends Controller
     {
         try {
             $users = User::with(['role'])->join('roles','roles.id', '=','users.role_id' )
+            //quitar el campo description de user
+            ->select('users.*')
                 ->get();
 
             return response()->json([
