@@ -311,7 +311,15 @@ class ControlPanelController extends Controller
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 4 DAY) THEN 1 ELSE 0 END) AS `$day4`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 5 DAY) THEN 1 ELSE 0 END) AS `$day5`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 6 DAY) THEN 1 ELSE 0 END) AS `$day6`"),
-                DB::raw('count(*) as Total'),
+                DB::raw("SUM(
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 0 DAY) AND `Estado actividad` = 'Pendiente' THEN 1 ELSE 0 END + 
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 1 DAY) THEN 1 ELSE 0 END +
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 2 DAY) THEN 1 ELSE 0 END +
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 3 DAY) THEN 1 ELSE 0 END +
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 4 DAY) THEN 1 ELSE 0 END +
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 5 DAY) THEN 1 ELSE 0 END +
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 6 DAY) THEN 1 ELSE 0 END
+                 ) as Total"),
             )
             ->groupBy(['futures.Time Slot'])
             ->orderByRaw('futures.`Time Slot` asc')
@@ -354,7 +362,15 @@ class ControlPanelController extends Controller
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 4 DAY) THEN 1 ELSE 0 END) AS `$day4`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 5 DAY) THEN 1 ELSE 0 END) AS `$day5`"),
                 DB::raw("SUM(CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, '%d/%m/%y'), '%Y-%m-%d') = (CURRENT_DATE + INTERVAL 6 DAY) THEN 1 ELSE 0 END) AS `$day6`"),
-                DB::raw('count(*) as Total'),
+                DB::raw('SUM(
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = (CURRENT_DATE + INTERVAL 0 DAY) AND `Estado actividad` = "Pendiente" THEN 1 ELSE 0 END + 
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = (CURRENT_DATE + INTERVAL 1 DAY) THEN 1 ELSE 0 END +
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = (CURRENT_DATE + INTERVAL 2 DAY) THEN 1 ELSE 0 END +
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = (CURRENT_DATE + INTERVAL 3 DAY) THEN 1 ELSE 0 END +
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = (CURRENT_DATE + INTERVAL 4 DAY) THEN 1 ELSE 0 END +
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = (CURRENT_DATE + INTERVAL 5 DAY) THEN 1 ELSE 0 END +
+                    CASE WHEN DATE_FORMAT(STR_TO_DATE(`Fecha de Cita`, "%d/%m/%y"), "%Y-%m-%d") = (CURRENT_DATE + INTERVAL 6 DAY) THEN 1 ELSE 0 END
+                 ) as Total')
             )
             ->groupBy(['futures.Time Slot'])
             ->orderByRaw('futures.`Time Slot` asc')
