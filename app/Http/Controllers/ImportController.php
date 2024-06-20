@@ -21,7 +21,7 @@ use App\Models\Technical;
 use Excel;
 use Exception;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Validator;
 class ImportController extends Controller
 {
     
@@ -233,12 +233,20 @@ class ImportController extends Controller
 
     public function importTechnical(Request $request)
     {
+
         $this->validate($request, [
-            'file' => 'required|mimetypes:text/plain'
+            'file' => [
+                'required',
+                function($attribute, $value, $fail) {
+                    $extension = $value->getClientOriginalExtension();
+                    if ($extension != 'xlsx') {
+                        $fail('El archivo debe ser de tipo xlsx');
+                    }
+                },
+            ],
         ],
         [
             'file.required' => 'El archivo es requerido',
-            'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
         ]);
         try{
             $time_start = microtime(true);
