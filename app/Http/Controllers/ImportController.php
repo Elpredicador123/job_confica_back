@@ -235,19 +235,27 @@ class ImportController extends Controller
     {
 
         $this->validate($request, [
-            'file' => [
-                'required',
-                function($attribute, $value, $fail) {
-                    $extension = $value->getClientOriginalExtension();
-                    if ($extension != 'xlsx') {
-                        $fail('El archivo debe ser de tipo xlsx');
-                    }
-                },
-            ],
+            'file' => 'required|mimetypes:text/plain'
         ],
         [
             'file.required' => 'El archivo es requerido',
+            'file.mimetypes' => 'El archivo debe ser de tipo text/plain'
         ]);
+
+        // $this->validate($request, [
+        //     'file' => [
+        //         'required',
+        //         function($attribute, $value, $fail) {
+        //             $extension = $value->getClientOriginalExtension();
+        //             if ($extension != 'xlsx') {
+        //                 $fail('El archivo debe ser de tipo xlsx');
+        //             }
+        //         },
+        //     ],
+        // ],
+        // [
+        //     'file.required' => 'El archivo es requerido',
+        // ]);
         try{
             $time_start = microtime(true);
             $file = $request->file('file');
