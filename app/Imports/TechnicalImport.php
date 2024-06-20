@@ -38,7 +38,7 @@ class TechnicalImport implements ToCollection, WithBatchInserts, WithChunkReadin
                         'Apellido_paterno' => $row[2],
                         'Apellido_materno' => $row[3],
                         'Nombres' => $row[4],
-                        'Fecha_Nacimiento' =>  \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($row[5]))->format('Y-m-d'),
+                        'Fecha_Nacimiento' =>  $row[5],
                         'Nacionalidad' => $row[6],
                         'Cargo' => $row[7],
                         'Genero' => $row[8],
