@@ -18,7 +18,7 @@
             </div>
             <div class="col-12 py-3">
                 <p>"Al realizar una nueva importación se considera el numero de documento para editar con los nuevos valores."</p>
-                <p>"El archivo debe ser de tipo CSV text/plain"</p>
+                <p>"El archivo debe ser de tipo XLSX"</p>
             </div>
         </div>
         <div class="row">
